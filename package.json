@@ -1,14 +1,14 @@
 {
-    "name": "corporal-lancot",
-    "version": "0.1.0",
-    "description": "Halt!",
-    "main": "app.js",
-    "author": "Lewis 'SEPTiMUS' Lane",
-    "scripts": {
-        "start": "node app.js"
-    },
-    "dependencies": {
-        "discord.js": "^12.2.0",
-        "mysql2": "^2.1.0",
-    }
+  "name": "corporal-lancot",
+  "version": "0.1.0",
+  "description": "Halt!",
+  "main": "app.js",
+  "author": "Lewis 'SEPTiMUS' Lane",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "mysql2": "^2.1.0"
+  }
 }

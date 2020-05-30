@@ -32,7 +32,7 @@ module.exports = class Bot {
 
     try {
       this.init();
-    } catch(e) {
+    } catch (e) {
       throw e;
     }
   }

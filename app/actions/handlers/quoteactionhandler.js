@@ -28,7 +28,10 @@ module.exports = class QuoteActionHandler extends ActionHandler {
       }
     } else {
       try {
-        const [rows, fields] = await this.bot.db.query(
+        const [
+          rows,
+          fields,
+        ] = await this.bot.db.query(
           `SELECT nick, message FROM ${this.bot.options.dbTable} WHERE message LIKE ? ORDER BY RAND() LIMIT 1;`,
           ["%" + action.data + "%"]
         );
