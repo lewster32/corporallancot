@@ -1,0 +1,8 @@
+{
+  "key": "000000000000000000000000.000000.000000000000000000000000000",
+  "db": "notes",
+  "dbTable": "notes",
+  "dbHost": "localhost",
+  "dbUser": "root",
+  "dbPassword": ""
+}
