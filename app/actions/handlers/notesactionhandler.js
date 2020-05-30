@@ -7,32 +7,28 @@ module.exports = class NotesActionHandler extends ActionHandler {
     super(bot, "notes");
   }
 
-  handle(action, msg) {
-    return new Promise((resolve, reject) => {
-      if (!action || !msg) {
-        reject();
-      }
-      const userID = msg.author.id;
-      const channelID = msg.channel.id;
-      const nick = msg.author.username;
-      const timestamp = msg.createdAt;
-      if (!action.data) {
-        resolve("I can't record an empty note! " + this.help);
-        return;
-      }
+  async handle(action, msg) {
+    if (!action || !msg) {
+      return;
+    }
+    const userID = msg.author.id;
+    const channelID = msg.channel.id;
+    const nick = msg.author.username;
+    const timestamp = msg.createdAt;
+    if (!action.data) {
+      return "I can't record an empty note! " + this.help;
+    }
 
-      this.bot.db.query(
-        `INSERT INTO notes (timestamp, user_id, channel_id, nick, message) VALUES (?, ?, ?, ?, ?);`,
-        [timestamp, userID, channelID, nick, action.data],
-        (err) => {
-          if (err) {
-            reject("sorry, there's been an error!");
-            console.error(err);
-            return;
-          }
-          resolve("thanks, I've recorded that for you.");
-        }
+    try {
+      await this.bot.db.query(
+        `INSERT INTO ${this.bot.options.dbTable} (timestamp, user_id, channel_id, nick, message) VALUES (?, ?, ?, ?, ?);`,
+        [timestamp, userID, channelID, nick, action.data]
       );
-    });
+
+      return "thanks, I've recorded that for you.";
+    } catch (e) {
+      console.error(e);
+      return "sorry, there's been an error!";
+    }
   }
 };

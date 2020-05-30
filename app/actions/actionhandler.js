@@ -9,9 +9,7 @@ module.exports = class ActionHandler {
     return this.command && action.command === this.command;
   }
 
-  handle(action, msg) {
-    return new Promise((resolve) => {
-      resolve(false);
-    });
+  async handle(action, msg) {
+    return "";
   }
 };

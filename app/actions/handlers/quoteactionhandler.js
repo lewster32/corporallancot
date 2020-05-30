@@ -8,47 +8,39 @@ module.exports = class QuoteActionHandler extends ActionHandler {
     super(bot, "quote");
   }
 
-  handle(action, msg) {
-    return new Promise((resolve, reject) => {
-      if (!action) {
-        reject();
-      }
-      if (!action.data) {
-        this.bot.db.query(
-          `SELECT * FROM notes ORDER BY RAND() LIMIT 1;`,
-          (err, result) => {
-            if (err) {
-              reject("sorry, there's been an error!");
-              console.error(err);
-              return;
-            } else if (result.length < 1) {
-              resolve("I couldn't find any notes!");
-              return;
-            }
-            resolve(
-              `\`${result[0]["nick"]}\`: \`\`\`${result[0].message}\`\`\``
-            );
-          }
+  async handle(action, msg) {
+    if (!action) {
+      return;
+    }
+    if (!action.data) {
+      try {
+        const [rows, fields] = await this.bot.db.query(
+          `SELECT nick, message FROM ${this.bot.options.dbTable} ORDER BY RAND() LIMIT 1;`
         );
-      } else {
-        this.bot.db.query(
-          `SELECT * FROM notes WHERE message LIKE ? ORDER BY RAND() LIMIT 1;`,
-          ["%" + action.data + "%"],
-          (err, result) => {
-            if (err) {
-              reject("sorry, there's been an error!");
-              console.error(err);
-              return;
-            } else if (result.length < 1) {
-              resolve("I couldn't find any notes matching your search!");
-              return;
-            }
-            resolve(
-              `\`${result[0]["nick"]}\`: \`\`\`${result[0].message}\`\`\``
-            );
-          }
-        );
+        if (rows.length) {
+          return `\`${rows[0]["nick"]}\`: \`\`\`${rows[0].message}\`\`\``;
+        } else {
+          return "I couldn't find any notes!";
+        }
+      } catch (e) {
+        console.error(e);
+        return "sorry, there's been an error!";
       }
-    });
+    } else {
+      try {
+        const [rows, fields] = await this.bot.db.query(
+          `SELECT nick, message FROM ${this.bot.options.dbTable} WHERE message LIKE ? ORDER BY RAND() LIMIT 1;`,
+          ["%" + action.data + "%"]
+        );
+        if (rows.length) {
+          return `\`${rows[0]["nick"]}\`: \`\`\`${rows[0].message}\`\`\``;
+        } else {
+          return "I couldn't find any notes matching your search!";
+        }
+      } catch (e) {
+        console.error(e);
+        return "sorry, there's been an error!";
+      }
+    }
   }
 };

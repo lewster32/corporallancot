@@ -7,10 +7,8 @@ module.exports = class HelpActionHandler extends ActionHandler {
     super(bot, "help");
   }
 
-  handle(action, msg) {
-    return new Promise((resolve) => {
-      let helpText = this.bot.actions.map((action) => action.help).join("\r\n");
-      resolve(helpText);
-    });
+  async handle(action, msg) {
+    let helpText = this.bot.actions.map((action) => action.help).join("\r\n");
+    return helpText;
   }
 };
