@@ -1,2 +1,2 @@
-# corporallancot
-A Discord bot primarily for recording, searching and retrieving notes and quotes
+# Corporal Lancot
+A Discord bot primarily for recording, searching and retrieving notes and quotes.
