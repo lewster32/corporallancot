@@ -12,6 +12,9 @@
     "module-alias": "^2.2.2",
     "mysql2": "^2.1.0"
   },
+  "devDependencies": {
+    "jasmine": "^3.5.0"
+  },
   "_moduleAliases": {
     "@root": "app",
     "@actions": "app/actions",
