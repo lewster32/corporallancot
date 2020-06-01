@@ -29,34 +29,14 @@ module.exports = class Bot {
     this.actions = this.actions.map((actionClass) => {
       return new actionClass(this);
     });
-
-    try {
-      this.init();
-    } catch (e) {
-      throw e;
-    }
   }
 
   async init() {
-    try {
-      await this.initDB();
-    } catch (e) {
-      throw e;
-    }
+    await this.initDB();
+    await this.setupTable();
+    await this.initDiscord();
 
-    try {
-      await this.setupTable();
-    } catch (e) {
-      throw e;
-    }
-
-    try {
-      await this.initDiscord();
-    } catch (e) {
-      throw e;
-    }
-
-    console.log("Init complete, ready to go!");
+    console.log("Initialisation complete");
 
     this.listen();
   }
@@ -77,16 +57,14 @@ module.exports = class Bot {
   }
 
   async setupTable() {
-    console.log("Checking notes table...");
-    const results = await this.db.query("SHOW TABLES LIKE ?;", [
-      this.notesTable,
-    ]);
-
-    if (results.length) {
-      console.log("Notes table exists!");
+    console.log(`Checking '${this.options.dbTable}' table`);
+    const [results, fields] = await this.db.query("SHOW TABLES LIKE ?;", [this.notesTable]);
+    if (results && results.length > 0) {
+      console.log(`'${this.options.dbTable}' table already exists`);
       return;
     }
 
+    console.log(`'${this.options.dbTable}' table does not exist, creating`);
     await this.db.query(
       `CREATE TABLE ${this.options.dbTable} (
       id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -98,7 +76,7 @@ module.exports = class Bot {
   );`
     );
 
-    console.log("Notes table created!");
+    console.log(`'${this.options.dbTable}' table created`);
   }
 
   initDiscord() {

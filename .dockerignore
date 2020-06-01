@@ -1,0 +1,12 @@
+e2e/
+dist/
+node_modules/
+.git/
+
+.dockerignore
+.editorconfig
+.gitignore
+Dockerfile
+README.md
+LICENSE
+.env
