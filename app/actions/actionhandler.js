@@ -1,12 +1,15 @@
 module.exports = class ActionHandler {
+  bot = null;
+  command = "";
+
   constructor(bot, command) {
     this.bot = bot;
     this.command = command;
-    console.log("Initialised '!" + command + "' handler...");
+    console.log("Initialised '!" + command + "' handler");
   }
 
   isMatch(action) {
-    return this.command && action.command === this.command;
+    return (this.command && this.command === action.command);
   }
 
   async handle(action, msg) {

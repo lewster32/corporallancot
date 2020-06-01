@@ -5,10 +5,16 @@
   "main": "app.js",
   "author": "Lewis 'SEPTiMUS' Lane",
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "discord.js": "^12.2.0",
+    "module-alias": "^2.2.2",
     "mysql2": "^2.1.0"
+  },
+  "_moduleAliases": {
+    "@root": "app",
+    "@actions": "app/actions",
+    "@actionhandlers": "app/actions/handlers"
   }
 }

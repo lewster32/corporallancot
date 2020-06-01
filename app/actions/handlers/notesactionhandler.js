@@ -1,4 +1,4 @@
-const ActionHandler = require("../actionhandler");
+const ActionHandler = require("@actions/actionhandler");
 
 module.exports = class NotesActionHandler extends ActionHandler {
   help = "`!notes [message]` records a note.";

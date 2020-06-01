@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const MySQL = require("mysql2/promise");
-const Action = require("./actions/action");
-const HelpActionHandler = require("./actions/handlers/helpactionhandler");
-const NotesActionHandler = require("./actions/handlers/notesactionhandler");
-const QuoteActionHandler = require("./actions/handlers/quoteactionhandler");
+const Action = require("@actions/action");
+const HelpActionHandler = require("@actionhandlers/helpactionhandler");
+const NotesActionHandler = require("@actionhandlers/notesactionhandler");
+const QuoteActionHandler = require("@actionhandlers/quoteactionhandler");
 
 module.exports = class Bot {
   constructor(
@@ -42,7 +42,7 @@ module.exports = class Bot {
   }
 
   async initDB() {
-    console.log("Connecting to database...");
+    console.log("Connecting to database");
 
     this.db = await this.mysql.createConnection({
       host: this.options.dbHost || "localhost",
@@ -53,12 +53,14 @@ module.exports = class Bot {
 
     this.notesTable = this.options.dbTable || "notes";
 
-    console.log("Connected to database!");
+    console.log("Connected to database");
   }
 
   async setupTable() {
     console.log(`Checking '${this.options.dbTable}' table`);
-    const [results, fields] = await this.db.query("SHOW TABLES LIKE ?;", [this.notesTable]);
+    const [results, fields] = await this.db.query("SHOW TABLES LIKE ?;", [
+      this.notesTable,
+    ]);
     if (results && results.length > 0) {
       console.log(`'${this.options.dbTable}' table already exists`);
       return;
@@ -80,12 +82,12 @@ module.exports = class Bot {
   }
 
   initDiscord() {
-    console.log("Logging in to Discord...");
+    console.log("Logging in to Discord");
     return new Promise((resolve, reject) => {
       try {
         this.client = new this.discord.Client();
         this.client.once("ready", () => {
-          console.log("Logged into Discord!");
+          console.log("Logged into Discord");
           resolve(true);
         });
 
@@ -97,7 +99,7 @@ module.exports = class Bot {
   }
 
   async listen() {
-    console.log("Listening for commands...");
+    console.log("Listening for commands");
     this.client.on("message", this.listenHandler.bind(this));
   }
 

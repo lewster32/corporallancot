@@ -1,4 +1,4 @@
-const ActionHandler = require("../actionhandler");
+const ActionHandler = require("@actions/actionhandler");
 
 module.exports = class QuoteActionHandler extends ActionHandler {
   help =
