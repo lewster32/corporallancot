@@ -13,7 +13,7 @@ RUN set -x \
   && npm install --no-progress --only=prod
 
 COPY /config.json /bot
-COPY /app.js /bot
+COPY /index.js /bot
 COPY /app /bot/app
 
 CMD ["npm", "start"]

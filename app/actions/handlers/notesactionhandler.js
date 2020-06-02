@@ -3,8 +3,9 @@ const ActionHandler = require("@actions/actionhandler");
 module.exports = class NotesActionHandler extends ActionHandler {
   help = "`!notes [message]` records a note.";
 
-  constructor(bot) {
+  constructor(bot, db) {
     super(bot, "notes");
+    this.db = db;
   }
 
   async handle(action, msg) {
@@ -20,11 +21,7 @@ module.exports = class NotesActionHandler extends ActionHandler {
     }
 
     try {
-      await this.bot.db.query(
-        `INSERT INTO ${this.bot.options.dbTable} (timestamp, user_id, channel_id, nick, message) VALUES (?, ?, ?, ?, ?);`,
-        [timestamp, userID, channelID, nick, action.data]
-      );
-
+      await this.db.insertNote(timestamp, userID, channelID, nick, action.data);
       return "thanks, I've recorded that for you.";
     } catch (e) {
       console.error(e);

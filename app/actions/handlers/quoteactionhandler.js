@@ -15,7 +15,7 @@ module.exports = class QuoteActionHandler extends ActionHandler {
     if (!action.data) {
       try {
         const [rows, fields] = await this.bot.db.query(
-          `SELECT nick, message FROM ${this.bot.options.dbTable} ORDER BY RAND() LIMIT 1;`
+          `SELECT nick, message FROM ${this.bot.appConfig.dbTable} ORDER BY RAND() LIMIT 1;`
         );
         if (rows.length) {
           return `\`${rows[0]["nick"]}\`: \`\`\`${rows[0].message}\`\`\``;
@@ -32,7 +32,7 @@ module.exports = class QuoteActionHandler extends ActionHandler {
           rows,
           fields,
         ] = await this.bot.db.query(
-          `SELECT nick, message FROM ${this.bot.options.dbTable} WHERE message LIKE ? ORDER BY RAND() LIMIT 1;`,
+          `SELECT nick, message FROM ${this.bot.appConfig.dbTable} WHERE message LIKE ? ORDER BY RAND() LIMIT 1;`,
           ["%" + action.data + "%"]
         );
         if (rows.length) {
