@@ -3,8 +3,8 @@ const ActionHandler = require("@actions/actionhandler");
 module.exports = class NotesActionHandler extends ActionHandler {
   help = "`!notes [message]` records a note.";
 
-  constructor(bot, db) {
-    super(bot, "notes");
+  constructor({ logger, db }) {
+    super(logger, "notes");
     this.db = db;
   }
 

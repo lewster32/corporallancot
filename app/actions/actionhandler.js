@@ -1,11 +1,8 @@
 module.exports = class ActionHandler {
-  bot = null;
-  command = "";
-
-  constructor(bot, command) {
-    this.bot = bot;
+  constructor({ logger, command }) {
     this.command = command;
-    console.log("Initialised '!" + command + "' handler");
+    this.logger = logger;
+    this.logger.log(`Initialised '!${command}' handler`);
   }
 
   isMatch(action) {
@@ -13,6 +10,6 @@ module.exports = class ActionHandler {
   }
 
   async handle(action, msg) {
-    return "";
+    throw new Error("Not implemented");
   }
 };

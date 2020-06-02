@@ -2,6 +2,7 @@
 
 // Container
 const ioc = require('awilix');
+const Lifetime = ioc.Lifetime;
 
 // App
 const Bot = require('./bot');
@@ -26,18 +27,28 @@ const container = ioc.createContainer({
 console.log("Registering services");
 
 container.register({
+  bot: ioc.asClass(Bot, { lifetime: Lifetime.SINGLETON }),
   configFilePath: ioc.asValue("config.json"),
   dbConfig: ioc.asClass(DbConfig),
   db: ioc.asClass(Db),
   appConfig: ioc.asFunction(Config),
   logger: ioc.asClass(Logger),
   mySql: ioc.asValue(MySQL),
-  bot: ioc.asClass(Bot),
-  actions: ioc.asValue([HelpActionHandler, NotesActionHandler, QuoteActionHandler]),
   discord: ioc.asValue(Discord),
   botVersion: ioc.asValue(process.env.npm_package_version),
   botName: ioc.asValue(process.env.npm_package_name),
-  botDescription: ioc.asValue(process.env.npm_package_description)
+  botDescription: ioc.asValue(process.env.npm_package_description),
+  // actions: ioc.asValue([HelpActionHandler, NotesActionHandler, QuoteActionHandler])
+  helpAction: ioc.asClass(HelpActionHandler),
+  notesAction: ioc.asClass(NotesActionHandler),
+  quoteAction: ioc.asClass(QuoteActionHandler),
+  actions: ioc.asFunction(function () {
+    return [
+      container.cradle.helpAction,
+      container.cradle.notesAction,
+      container.cradle.quoteAction
+    ];
+  })
 });
 
 container.cradle.logger.log("All services registered");

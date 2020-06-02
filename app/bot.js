@@ -26,10 +26,10 @@ module.exports = class Bot {
       throw new Error("Missing required constructor dependencies");
     }
 
-    // TODO: Remove and replace. The below code is not necessary with DI
-    this.actions = this.actions.map((actionClass) => {
-      return new actionClass(this, this.db);
-    });
+    // TODO: Remove this and dynamically load actions via the IoC container, and we wouldn't have to keep adding dependencies for all actions here
+    // this.actions = this.actions.map((actionClass) => {
+    //   return new actionClass({ logger: this.logger, db: this.db, bot: this });
+    // });
   }
 
   async init() {
@@ -47,7 +47,7 @@ module.exports = class Bot {
       try {
         this.client = new this.discord.Client();
         this.client.once("ready", () => {
-          this.logger.log("Logged into Discord!");
+          this.logger.log("Logged into Discord");
           resolve(true);
         });
 
@@ -73,6 +73,7 @@ module.exports = class Bot {
           reply = "I don't recognise that command.";
         } else {
           try {
+            this.logger.log(`Received command '${msg.content}' from '${msg.author.username}'`);
             reply = await handler[0].handle(action, msg);
           } catch (e) {
             reply = e;

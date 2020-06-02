@@ -1,8 +1,5 @@
 'use strict';
 
-// const MySQL = require("mysql2/promise");
-// const Container = require("../../container");
-
 module.exports = class Db {
   constructor({ mySql, dbConfig, logger }) {
     this.mysql = mySql;
@@ -80,13 +77,13 @@ CREATE TABLE IF NOT EXISTS ${this.dbConfig.notesTable} (
   }
 
   async getRandomNote() {
-    return [rows, fields] = await this.connection.query(
+    return await this.connection.query(
       `SELECT nick, message FROM ${this.dbConfig.notesTable} ORDER BY RAND() LIMIT 1;`
     );
   }
 
   async getRandomNoteByContent(message) {
-    return [rows, fields] = await this.connection.query(
+    return await this.connection.query(
       `SELECT nick, message FROM ${this.dbConfig.notesTable} WHERE message LIKE ? ORDER BY RAND() LIMIT 1;`,
       [`%${message}%`]
     );
