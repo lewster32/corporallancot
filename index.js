@@ -1,5 +1,7 @@
 'use strict';
 
+require('module-alias/register');
+
 // Executes container.js and sets up the IoC and all app dependencies and rules
 const Container = require('./app/container');
 
