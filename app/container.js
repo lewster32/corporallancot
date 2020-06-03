@@ -30,7 +30,7 @@ container.register({
   bot: ioc.asClass(Bot, { lifetime: Lifetime.SINGLETON }),
   configFilePath: ioc.asValue("config.json"),
   dbConfig: ioc.asClass(DbConfig),
-  db: ioc.asClass(Db),
+  db: ioc.asClass(Db, { lifetime: Lifetime.SINGLETON }),
   appConfig: ioc.asFunction(Config),
   logger: ioc.asClass(Logger),
   mySql: ioc.asValue(MySQL),
@@ -38,19 +38,24 @@ container.register({
   botVersion: ioc.asValue(process.env.npm_package_version),
   botName: ioc.asValue(process.env.npm_package_name),
   botDescription: ioc.asValue(process.env.npm_package_description),
-  // actions: ioc.asValue([HelpActionHandler, NotesActionHandler, QuoteActionHandler])
+
+  // Register Actions
   helpAction: ioc.asClass(HelpActionHandler),
   notesAction: ioc.asClass(NotesActionHandler),
   quoteAction: ioc.asClass(QuoteActionHandler),
-  actions: ioc.asFunction(function () {
+  // Add all of the above actions into the below returned array
+  helpActionActions: ioc.asFunction(function () {
     return [
-      container.cradle.helpAction,
       container.cradle.notesAction,
       container.cradle.quoteAction
     ];
-  })
+  }, { lifetime: Lifetime.SINGLETON }),
+  // Also include the help action. Do not inject this registration into any actions as you will create a cyclic dependency
+  actions: ioc.asFunction(function () {
+    return container.cradle.helpActionActions
+      .concat([container.cradle.helpAction]);
+  }, { lifetime: Lifetime.SINGLETON })
 });
-
 container.cradle.logger.log("All services registered");
 
 module.exports = container;

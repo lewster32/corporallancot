@@ -1,5 +1,5 @@
 module.exports = class ActionHandler {
-  constructor({ logger, command }) {
+  constructor(logger, command) {
     this.command = command;
     this.logger = logger;
     this.logger.log(`Initialised '!${command}' handler`);

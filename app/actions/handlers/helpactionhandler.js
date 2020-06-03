@@ -3,13 +3,17 @@ const ActionHandler = require("@actions/actionhandler");
 module.exports = class HelpActionHandler extends ActionHandler {
   help = "`!help` to show this message.";
 
-  constructor({ logger, actions }) {
+  constructor({ logger, helpActionActions }) {
     super(logger, "help");
-    // this.bot = bot;
+    this.actions = helpActionActions;
   }
 
   async handle(action, msg) {
+    if (!action) {
+      return;
+    }
     let helpText = this.actions.map((action) => action.help).join("\r\n");
+    // let helpText = "test reply";
     return helpText;
   }
 };

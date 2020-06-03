@@ -1,6 +1,6 @@
 'use strict';
 
-const Action = require("./actions/action");
+const DiscordMessage = require("./actions/discordMessage");
 
 module.exports = class Bot {
   constructor({
@@ -64,23 +64,31 @@ module.exports = class Bot {
   }
 
   async listenHandler(msg) {
-    if (msg.content && msg.content[0] === "!") {
-      const action = Action.getAction(msg.content);
-      if (action && action.command) {
-        let reply = "";
-        const handler = this.actions.filter((x) => x.isMatch(action));
-        if (!handler || !handler.length) {
-          reply = "I don't recognise that command.";
-        } else {
-          try {
-            this.logger.log(`Received command '${msg.content}' from '${msg.author.username}'`);
-            reply = await handler[0].handle(action, msg);
-          } catch (e) {
-            reply = e;
+    const content = msg.content;
+    if (!content || !(content[0] === "!")) {
+      return;
+    }
+    this.logger.log(`Bang command found in message '${content}'`);
+
+    const action = new DiscordMessage(content);
+    if (action && action.command) {
+      let reply = "";
+      const handler = this.actions.filter((x) => x.isMatch(action));
+
+      this.logger.log(`Received command '${msg.content}' from '${msg.author.username}'`);
+
+      if (!handler || !handler.length) {
+        reply = "I don't recognise that command.";
+      } else {
+        try {
+          reply = await handler[0].handle(action, msg);
+        } catch (e) {
+          reply = `Halt! An error occurred: ${e.toString()}`;
+        } finally {
+          this.logger.log(`Reply set to '${reply}'`);
+          if (reply) {
+            msg.reply(reply);
           }
-        }
-        if (reply) {
-          msg.reply(reply);
         }
       }
     }
