@@ -11,6 +11,7 @@ const DbConfig = require('@services/db/dbConfig');
 const DbAdapter = require('@dbAdapters/mariaDbAdapter');
 const Config = require('@services/appConfig/appConfig');
 const Logger = require('@services/logging/logger');
+const LoggerConfig = require('@services/logging/loggerConfig');
 // Actions
 const HelpActionHandler = require("@actions/handlers/helpActionHandler");
 const NotesActionHandler = require("@actions/handlers/notesActionHandler");
@@ -23,6 +24,7 @@ const NotesRepository = require("@dbRepositories/notesRepository");
 // 3rd party
 const MySQL = require("mysql2/promise");
 const Discord = require("discord.js");
+const Winston = require("winston");
 
 // IoC container - these are the only references to console.log() that should exist in the application
 console.log("[Root] Creating IoC container");
@@ -36,9 +38,11 @@ container.register({
   configFilePath: ioc.asValue("config.json"),
   dbConfig: ioc.asClass(DbConfig),
   appConfig: ioc.asFunction(Config),
-  logger: ioc.asClass(Logger),
+  logger: ioc.asClass(Logger, { lifetime: Lifetime.SINGLETON }),
+  loggerConfig: ioc.asClass(LoggerConfig),
   mySql: ioc.asValue(MySQL),
   discord: ioc.asValue(Discord),
+  winston: ioc.asValue(Winston),
   botVersion: ioc.asValue(process.env.npm_package_version),
   botName: ioc.asValue(process.env.npm_package_name),
   botDescription: ioc.asValue(process.env.npm_package_description),
@@ -69,6 +73,6 @@ container.register({
       .concat([container.cradle.helpAction]);
   }, { lifetime: Lifetime.SINGLETON })
 });
-container.cradle.logger.log("[Root] All services registered");
+container.cradle.logger.init().log("[Root] All services registered");
 
 module.exports = container;
