@@ -14,6 +14,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - ${DB_MOUNT_PATH}:/var/lib/mysql
+      - ${DB_SQL_SCRIPTS_MOUNT_PATH}:/docker-entrypoint-initdb.d
   bot:
     image: corporallancot:latest
     container_name: corporallancot.bot
