@@ -13,7 +13,6 @@ module.exports = class HelpActionHandler extends ActionHandler {
       return;
     }
     let helpText = this.actions.map((action) => action.help).join("\r\n");
-    // let helpText = "test reply";
     return helpText;
   }
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-const DiscordMessage = require("./actions/discordMessage");
+const DiscordMessage = require("./actions/actionMessage");
 
 module.exports = class Bot {
   constructor({
@@ -25,11 +25,6 @@ module.exports = class Bot {
     if (!this.discord || !this.db || !this.actions || !this.appConfig) {
       throw new Error("Missing required constructor dependencies");
     }
-
-    // TODO: Remove this and dynamically load actions via the IoC container, and we wouldn't have to keep adding dependencies for all actions here
-    // this.actions = this.actions.map((actionClass) => {
-    //   return new actionClass({ logger: this.logger, db: this.db, bot: this });
-    // });
   }
 
   async init() {

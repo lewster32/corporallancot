@@ -1,8 +1,10 @@
+const NotImplemented = require("@errors/notImplemented");
+
 module.exports = class ActionHandler {
   constructor(logger, command) {
     this.command = command;
     this.logger = logger;
-    this.logger.log(`Initialised '!${command}' handler`);
+    this.logger.log(`Initialising '!${command}' handler`);
   }
 
   isMatch(action) {
@@ -10,6 +12,6 @@ module.exports = class ActionHandler {
   }
 
   async handle(action, msg) {
-    throw new Error("Not implemented");
+    throw NotImplemented;
   }
 };
