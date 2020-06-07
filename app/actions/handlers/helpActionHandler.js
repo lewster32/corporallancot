@@ -1,4 +1,4 @@
-const ActionHandler = require("@actions/actionhandler");
+const ActionHandler = require("@actions/actionHandler");
 
 module.exports = class HelpActionHandler extends ActionHandler {
   help = "`!help` to show this message.";

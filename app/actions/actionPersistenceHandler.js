@@ -1,10 +1,10 @@
 const NotImplemented = require("@errors/notImplemented");
 
 module.exports = class ActionPersistenceHandler {
-  constructor(logger, actionHandler, db) {
+  constructor(logger, dbAdapter) {
     this.logger = logger;
-    this.actionHandler = actionHandler;
-    this.db = db;
+    this.dbAdapter = dbAdapter;
+    this.logger.log(`Initialising '${this.constructor.name}' action persistence handler`);
   }
 
   async init() {

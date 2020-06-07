@@ -1,12 +1,12 @@
-const ActionHandler = require("@actions/actionhandler");
+const ActionHandler = require("@actions/actionHandler");
 
 module.exports = class QuoteActionHandler extends ActionHandler {
   help =
     "`!quote <search>` finds a note (if `search` is omitted, I'll just find a random note).";
 
-  constructor({ logger, db }) {
+  constructor({ logger, notesActionPersistenceHandler }) {
     super(logger, "quote");
-    this.db = db;
+    this.persistenceHandler = notesActionPersistenceHandler;
   }
 
   async handle(action, msg) {
@@ -16,7 +16,7 @@ module.exports = class QuoteActionHandler extends ActionHandler {
 
     if (!action.data) {
       try {
-        const [rows] = await this.db.getRandomNote();
+        const [rows] = await this.persistenceHandler.getRandomNote();
         if (rows.length) {
           return `\`${rows[0]["nick"]}\`: \`\`\`${rows[0].message}\`\`\``;
         } else {
@@ -28,7 +28,7 @@ module.exports = class QuoteActionHandler extends ActionHandler {
       }
     } else {
       try {
-        const [rows] = await this.db.getRandomNoteByContent(action.data);
+        const [rows] = await this.persistenceHandler.getRandomNoteByContent(action.data);
         if (rows.length) {
           return `\`${rows[0]["nick"]}\`: \`\`\`${rows[0].message}\`\`\``;
         } else {

@@ -10,3 +10,4 @@ Dockerfile
 README.md
 LICENSE
 .env
+*.spec.js

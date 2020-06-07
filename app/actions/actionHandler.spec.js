@@ -10,10 +10,16 @@ describe("actionPersistenceHandler", () => {
     expect(handler.logger).toBe(logger);
   });
 
-  it("sets db to db property", () => {
-    const db = {};
-    const handler = new ActionPersistenceHandler({}, {}, db);
-    expect(handler.db).toBe(db);
+  it("sets actionHandler to actionHandler property", () => {
+    const actionHandler = {};
+    const handler = new ActionPersistenceHandler({}, actionHandler);
+    expect(handler.actionHandler).toBe(actionHandler);
+  });
+
+  it("sets dbAdapter to dbAdapter property", () => {
+    const dbAdapter = {};
+    const handler = new ActionPersistenceHandler({}, {}, dbAdapter);
+    expect(handler.dbAdapter).toBe(dbAdapter);
   });
 
   it("init() throws Not Implemented error (must be overridden)", async () => {

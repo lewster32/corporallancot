@@ -26,7 +26,6 @@
   "_moduleAliases": {
     "@root": "app",
     "@actions": "app/actions",
-    "@actionhandlers": "app/actions/handlers",
     "@services": "app/services",
     "@errors": "app/errors"
   }

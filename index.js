@@ -3,7 +3,7 @@
 require('module-alias/register');
 
 // Executes container.js and sets up the IoC and all app dependencies and rules
-const Container = require('./app/container');
+const Container = require('@root/container');
 
 // Resolve the bot dependency and call its init() method asynchronously to start the app
 (async () => {

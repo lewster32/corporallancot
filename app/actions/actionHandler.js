@@ -4,7 +4,7 @@ module.exports = class ActionHandler {
   constructor(logger, command) {
     this.command = command;
     this.logger = logger;
-    this.logger.log(`Initialising '!${command}' handler`);
+    this.logger.log(`Initialising '!${command}' action handler`);
   }
 
   isMatch(action) {

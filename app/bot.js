@@ -7,7 +7,7 @@ module.exports = class Bot {
     appConfig,
     actions,
     discord,
-    db,
+    dbAdapter,
     botVersion,
     botName,
     botDescription,
@@ -20,17 +20,17 @@ module.exports = class Bot {
     this.actions = actions;
     this.appConfig = appConfig;
     this.discord = discord;
-    this.db = db;
+    this.dbAdapter = dbAdapter;
 
-    if (!this.discord || !this.db || !this.actions || !this.appConfig) {
+    if (!this.discord || !this.dbAdapter || !this.actions || !this.appConfig) {
       throw new Error("Missing required constructor dependencies");
     }
   }
 
   async init() {
     this.logger.log("Initialising bot");
-    await this.db.connect();
-    await this.db.setupTable();
+    await this.dbAdapter.connect();
+    // await this.dbAdapter.setupTable();
     await this.initDiscord();
     this.logger.log("Initialisation complete");
     await this.listen();
