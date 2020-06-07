@@ -1,3 +1,5 @@
+'use strict';
+
 const NotImplemented = require("@errors/notImplemented");
 const ActionPersistenceHandler = require("@actions/actionPersistenceHandler");
 

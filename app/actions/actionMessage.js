@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = class ActionMessage {
   constructor(message) {
     if (!message || message.replace(/\s/g, '').length <= 0) {

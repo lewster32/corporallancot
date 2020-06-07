@@ -1,3 +1,5 @@
+'use strict';
+
 const NotImplemented = require("@errors/notImplemented");
 
 module.exports = class ActionPersistenceHandler {

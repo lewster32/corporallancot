@@ -1,3 +1,5 @@
+'use strict';
+
 const ActionHandler = require("@actions/actionHandler");
 
 module.exports = class NotesActionHandler extends ActionHandler {

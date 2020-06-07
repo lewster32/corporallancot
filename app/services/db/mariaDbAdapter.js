@@ -1,4 +1,5 @@
 'use strict';
+
 const DbAdapter = require("@services/db/dbAdapter");
 
 module.exports = class MariaDbAdapter extends DbAdapter {
