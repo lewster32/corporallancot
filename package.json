@@ -27,6 +27,7 @@
     "@root": "app",
     "@actions": "app/actions",
     "@services": "app/services",
-    "@errors": "app/errors"
+    "@errors": "app/errors",
+    "@repositories": "app/services/db/repositories"
   }
 }

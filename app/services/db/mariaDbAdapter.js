@@ -10,6 +10,7 @@ module.exports = class MariaDbAdapter extends DbAdapter {
   }
 
   async connect() {
+    // TODO: Write tests to check that this.connection is not already set
     this.logger.log(`Connecting to '${this.dbConfig.database}' database on server '${this.dbConfig.server}'`);
 
     let retry = 0;
@@ -50,26 +51,5 @@ module.exports = class MariaDbAdapter extends DbAdapter {
     return new Promise((resolve) => {
       setTimeout(resolve, ms);
     });
-  }
-
-  // TODO: Implement generic calls to connection.query etc
-  async execute() {
-    throw "TBD";
-  }
-
-  async create() {
-    throw "TBD";
-  }
-
-  async read() {
-    throw "TBD";
-  }
-
-  async update() {
-    throw "TBD";
-  }
-
-  async delete() {
-    throw "TBD";
   }
 }

@@ -1,8 +1,8 @@
 'use strict';
 
-const ActionHandler = require("@actions/actionHandler");
+const ActionHandlerBase = require("@actions/actionHandlerBase");
 
-module.exports = class NotesActionHandler extends ActionHandler {
+module.exports = class NotesActionHandler extends ActionHandlerBase {
   help = "`!notes [message]` records a note.";
 
   constructor({ logger, notesActionPersistenceHandler }) {

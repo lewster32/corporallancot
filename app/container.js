@@ -17,6 +17,9 @@ const NotesActionHandler = require("@actions/handlers/notesActionHandler");
 const QuoteActionHandler = require("@actions/handlers/quoteActionHandler");
 // Action Persistence Handlers
 const NotesActionPersistenceHandler = require("@actions/persistenceHandlers/notesActionPersistenceHandler");
+// DB Repositories
+const NotesRepository = require("@repositories/notesRepository");
+
 // 3rd party
 const MySQL = require("mysql2/promise");
 const Discord = require("discord.js");
@@ -32,7 +35,6 @@ container.register({
   bot: ioc.asClass(Bot, { lifetime: Lifetime.SINGLETON }),
   configFilePath: ioc.asValue("config.json"),
   dbConfig: ioc.asClass(DbConfig),
-  dbAdapter: ioc.asClass(DbAdapter, { lifetime: Lifetime.SINGLETON }),
   appConfig: ioc.asFunction(Config),
   logger: ioc.asClass(Logger),
   mySql: ioc.asValue(MySQL),
@@ -43,6 +45,11 @@ container.register({
 
   // Register Action persistence handlers - TODO: Register automatically
   notesActionPersistenceHandler: ioc.asClass(NotesActionPersistenceHandler, { lifetime: Lifetime.SINGLETON }),
+
+  // Register database and repositories
+  dbAdapter: ioc.asClass(DbAdapter, { lifetime: Lifetime.SINGLETON }),
+  // TODO: Register repos automatically
+  notesRepository: ioc.asClass(NotesRepository),
 
   // Register Actions - TODO: Register automatically
   helpAction: ioc.asClass(HelpActionHandler),

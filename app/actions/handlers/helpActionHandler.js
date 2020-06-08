@@ -1,8 +1,8 @@
 'use strict';
 
-const ActionHandler = require("@actions/actionHandler");
+const ActionHandlerBase = require("@actions/actionHandlerBase");
 
-module.exports = class HelpActionHandler extends ActionHandler {
+module.exports = class HelpActionHandler extends ActionHandlerBase {
   help = "`!help` to show this message.";
 
   constructor({ logger, helpActionActions }) {

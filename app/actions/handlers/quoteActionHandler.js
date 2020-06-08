@@ -1,8 +1,8 @@
 'use strict';
 
-const ActionHandler = require("@actions/actionHandler");
+const ActionHandlerBase = require("@actions/actionHandlerBase");
 
-module.exports = class QuoteActionHandler extends ActionHandler {
+module.exports = class QuoteActionHandler extends ActionHandlerBase {
   help =
     "`!quote <search>` finds a note (if `search` is omitted, I'll just find a random note).";
 

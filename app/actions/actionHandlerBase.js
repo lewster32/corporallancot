@@ -2,7 +2,7 @@
 
 const NotImplemented = require("@errors/notImplemented");
 
-module.exports = class ActionHandler {
+module.exports = class ActionHandlerBase {
   constructor(logger, command) {
     this.command = command;
     this.logger = logger;
