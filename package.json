@@ -28,6 +28,7 @@
     "@actions": "app/actions",
     "@services": "app/services",
     "@errors": "app/errors",
-    "@repositories": "app/services/db/repositories"
+    "@dbRepositories": "app/services/db/repositories",
+    "@dbAdapters": "app/services/db/adapters"
   }
 }

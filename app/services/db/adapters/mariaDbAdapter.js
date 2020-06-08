@@ -1,12 +1,11 @@
 'use strict';
 
-const DbAdapter = require("@services/db/dbAdapter");
+const DbAdapterBase = require("@services/db/dbAdapterBase");
 
-module.exports = class MariaDbAdapter extends DbAdapter {
+module.exports = class MariaDbAdapter extends DbAdapterBase {
   constructor({ mySql, dbConfig, logger }) {
     super(dbConfig, logger);
     this.mysql = mySql;
-    this.connection = null;
   }
 
   async connect() {
@@ -18,24 +17,24 @@ module.exports = class MariaDbAdapter extends DbAdapter {
     const retryDelay = this.dbConfig.connRetryDelay;
 
     while (!this.connection) {
-      try {
-        this.connection = await this.tryConnection();
-        break;
-      } catch (e) {
-        if (e.code === 'ECONNREFUSED') {
-          if (retry >= retryCount) {
-            this.logger.log(`Database connection timeout. Retries exceeded (${retryCount})`);
-            throw e;
-          }
-          retry++;
-          this.logger.log(`Connection failed. Retry ${retry} in ${retryDelay}ms`);
-          await this.sleep(retryDelay);
-          continue;
-        }
-        throw e;
-      }
+    //   try {
+         this.connection = await this.tryConnection();
+    //     this.logger.log(`Connected to database '${this.connection.config.host}'`);
+         break;
+    //   } catch (e) {
+    //     if (e.code === 'ECONNREFUSED') {
+    //       if (retry >= retryCount) {
+    //         this.logger.log(`Database connection timeout. Retries exceeded (${retryCount})`);
+    //         throw e;
+    //       }
+    //       retry++;
+    //       this.logger.log(`Connection failed. Retry ${retry} in ${retryDelay}ms`);
+    //       await this.sleep(retryDelay);
+    //       continue;
+    //     }
+    //     throw e;
+    //   }
     }
-    this.logger.log(`Connected to database '${this.connection.config.host}'`);
   }
 
   async tryConnection() {

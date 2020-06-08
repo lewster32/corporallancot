@@ -1,7 +1,6 @@
 'use strict';
 
 const ActionPersistenceHandlerBase = require("./actionPersistenceHandlerBase");
-const NotImplemented = require("@errors/notImplemented");
 
 describe("actionPersistenceHandlerBase", () => {
   const logger = {
@@ -11,7 +10,7 @@ describe("actionPersistenceHandlerBase", () => {
     init: function () { }
   };
 
-  it("sets logger to logger property", () => {
+  it("sets logger to .logger property", () => {
     const handler = new ActionPersistenceHandlerBase(logger);
     expect(handler.logger).toBe(logger);
   });

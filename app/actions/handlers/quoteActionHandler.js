@@ -9,6 +9,8 @@ module.exports = class QuoteActionHandler extends ActionHandlerBase {
   constructor({ logger, notesActionPersistenceHandler }) {
     super(logger, "quote");
     this.persistenceHandler = notesActionPersistenceHandler;
+
+    this.persistenceHandler.init();
   }
 
   async handle(action, msg) {

@@ -3,7 +3,7 @@
 const NotImplemented = require("@errors/notImplemented");
 
 // "Abstract" base class for database injection
-module.exports = class DbAdapter {
+module.exports = class DbAdapterBase {
   constructor(dbConfig, logger) {
     this.logger = logger;
     this.dbConfig = dbConfig;

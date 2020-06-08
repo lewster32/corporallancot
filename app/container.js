@@ -8,7 +8,7 @@ const Lifetime = ioc.Lifetime;
 const Bot = require('@root/bot');
 // Services
 const DbConfig = require('@services/db/dbConfig');
-const DbAdapter = require('@services/db/mariaDbAdapter');
+const DbAdapter = require('@dbAdapters/mariaDbAdapter');
 const Config = require('@services/appConfig/appConfig');
 const Logger = require('@services/logging/logger');
 // Actions
@@ -18,7 +18,7 @@ const QuoteActionHandler = require("@actions/handlers/quoteActionHandler");
 // Action Persistence Handlers
 const NotesActionPersistenceHandler = require("@actions/persistenceHandlers/notesActionPersistenceHandler");
 // DB Repositories
-const NotesRepository = require("@repositories/notesRepository");
+const NotesRepository = require("@dbRepositories/notesRepository");
 
 // 3rd party
 const MySQL = require("mysql2/promise");
