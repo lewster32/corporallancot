@@ -48,7 +48,7 @@ container.register({
 
   // Register database and repositories
   dbAdapter: ioc.asClass(DbAdapter, { lifetime: Lifetime.SINGLETON }),
-  // TODO: Register repos automatically
+  // TODO: Register repos automatically. Note that these do not need to be singletons.
   notesRepository: ioc.asClass(NotesRepository),
 
   // Register Actions - TODO: Register automatically

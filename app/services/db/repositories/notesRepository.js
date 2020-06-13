@@ -1,27 +1,30 @@
-module.exports = class NotesRepository {
-  constructor({ dbAdapter, logger }) {
-    this.logger = logger;
-    this.dbAdapter = dbAdapter;
-    this.tableName = "notes";
-    this.logPrefix = `[${this.constructor.name}] `;
-    this.logger.log(`${this.logPrefix}Initialising repository`);
+'use strict';
 
-    (async () => {
-      await this.dbAdapter
-        .connect()
-        .catch((e) => {
-          this.logger.log(`${this.logPrefix}A fatal error occurred when connecting to the database:\n`, e);
-        });
-      await this
-        .setupTable()
-        .catch((e) => {
-        this.logger.log(`${this.logPrefix}A fatal error occurred when setting up the notes table:\n`, e);
-      });
-    })();
+const DbRepositoryBase = require("@services/db/dbRepositoryBase");
+
+module.exports = class NotesRepository extends DbRepositoryBase {
+  constructor({ dbAdapter, logger }) {
+    super(dbAdapter, logger, "NotesRepository");
+
+    this.tableName = "notes";
+    this.logger.log(`${this.logPrefix}Initialising repository`);
+    this.tableCreated = false;
+  }
+
+  // All calls in this method must be thread safe as described in the DbRepositoryBase
+  // super class. this.init() is designed to be called by every method that may need a DB
+  // connection, with the exception of any setup methods called by itself (such as
+  // setupTable()), which would create an infinite loop.
+  async init() {
+    await this.dbAdapter.connect();
+    await this.setupTable();
   }
 
   async setupTable() {
-    // TODO: Write tests to ensure that the table is only set up once
+    if (this.tableCreated) {
+      return;
+    }
+
     this.logger.log(`${this.logPrefix}Checking '${this.tableName}' table`);
 
     const [resultHeader] = await this.dbAdapter.connection.query(`
@@ -38,24 +41,25 @@ CREATE TABLE IF NOT EXISTS ${this.tableName} (
     } else {
       this.logger.log(`${this.logPrefix}'${this.tableName}' table already exists`);
     }
+    this.tableCreated = true;
   }
 
   async insertNote(timestamp, userID, channelID, nick, message) {
-    this.logger.log(`${this.logPrefix}Inserting new note`);
-    await this.dbAdapter.connection.query(`INSERT INTO ${this.tableName} (timestamp, user_id, channel_id, nick, message) VALUES (?, ?, ?, ?, ?);`,
+    this.init();
+    return await this.dbAdapter.connection.query(`INSERT INTO ${this.tableName} (timestamp, user_id, channel_id, nick, message) VALUES (?, ?, ?, ?, ?);`,
       [timestamp, userID, channelID, nick, message]
     );
   }
 
   async getRandomNote() {
-    this.logger.log(`${this.logPrefix}Retrieving random note`);
+    this.init();
     return await this.dbAdapter.connection.query(
       `SELECT nick, message FROM ${this.tableName} ORDER BY RAND() LIMIT 1;`
     );
   }
 
   async getRandomNoteByContent(message) {
-    this.logger.log(`${this.logPrefix}Retrieving random note with search term '${message}'`);
+    this.init();
     return await this.dbAdapter.connection.query(
       `SELECT nick, message FROM ${this.tableName} WHERE message LIKE ? ORDER BY RAND() LIMIT 1;`,
       [`%${message}%`]

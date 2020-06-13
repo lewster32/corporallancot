@@ -10,6 +10,7 @@ module.exports = class MariaDbAdapter extends DbAdapterBase {
 
   async connect() {
     if (this.connection) {
+      // TODO: Need to check that the connection is still active in case of a disconnect...
       this.logger.log(`${this.logPrefix}Connection to '${this.dbConfig.server}/${this.dbConfig.database}' already established.`);
       return;
     }
