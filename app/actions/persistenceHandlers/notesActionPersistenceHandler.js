@@ -5,6 +5,9 @@ const ActionPersistenceHandlerBase = require("@actions/actionPersistenceHandlerB
 module.exports = class NotesActionPersistenceHandler extends ActionPersistenceHandlerBase {
   constructor({ logger, notesRepository }) {
     super(logger, notesRepository);
+
+    this.logPrefix = `[${this.constructor.name}] `;
+    this.logger.log(`${this.logPrefix}Initialising action persistence handler`);
   }
 
   async insertNote(timestamp, userID, channelID, nick, message) {

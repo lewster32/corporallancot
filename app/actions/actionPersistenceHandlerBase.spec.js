@@ -19,9 +19,4 @@ describe("actionPersistenceHandlerBase", () => {
     const handler = new ActionPersistenceHandlerBase(logger, repository);
     expect(handler.repository).toBe(repository);
   });
-
-  it("sets logPrefix to square-bracketed constructor name with space suffix", () => {
-    const handler = new ActionPersistenceHandlerBase(logger, repository);
-    expect(handler.logPrefix).toBe("[ActionPersistenceHandlerBase] ");
-  });
 });
