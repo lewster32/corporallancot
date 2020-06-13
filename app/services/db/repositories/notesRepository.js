@@ -5,11 +5,19 @@ module.exports = class NotesRepository {
     this.tableName = "notes";
     this.logPrefix = `[${this.constructor.name}] `;
     this.logger.log(`${this.logPrefix}Initialising repository`);
-  }
 
-  async init() {
-    await this.dbAdapter.connect();
-    await this.setupTable();
+    (async () => {
+      await this.dbAdapter
+        .connect()
+        .catch((e) => {
+          this.logger.log(`${this.logPrefix}A fatal error occurred when connecting to the database:\n`, e);
+        });
+      await this
+        .setupTable()
+        .catch((e) => {
+        this.logger.log(`${this.logPrefix}A fatal error occurred when setting up the notes table:\n`, e);
+      });
+    })();
   }
 
   async setupTable() {

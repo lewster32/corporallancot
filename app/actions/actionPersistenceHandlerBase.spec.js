@@ -16,39 +16,12 @@ describe("actionPersistenceHandlerBase", () => {
   });
 
   it("sets repository to .repository property", () => {
-    const handler = new ActionPersistenceHandlerBase({}, repository);
+    const handler = new ActionPersistenceHandlerBase(logger, repository);
     expect(handler.repository).toBe(repository);
   });
 
-  it("init() resolves asynchronously", async () => {
-    // Arrange
+  it("sets logPrefix to square-bracketed constructor name with space suffix", () => {
     const handler = new ActionPersistenceHandlerBase(logger, repository);
-    // Act & Assert
-    await expectAsync(handler.init()).toBeResolved();
-  });
-
-  it("init() calls logger.log", async () => {
-    // Arrange
-    spyOn(logger, 'log');
-    const handler = new ActionPersistenceHandlerBase(logger, repository);
-
-    // Act
-    await handler.init();
-
-    // Assert
-    expect(logger.log).toHaveBeenCalled();
-  });
-
-  it("init() calls repository.init", async () => {
-    // Arrange
-    spyOn(repository, 'init');
-    const handler = new ActionPersistenceHandlerBase(logger, repository);
-
-    // Act
-    await handler.init();
-
-    // Assert
-    expect(repository.init).toHaveBeenCalledTimes(1);
+    expect(handler.logPrefix).toBe("[ActionPersistenceHandlerBase] ");
   });
 });
-

@@ -8,6 +8,7 @@ module.exports = class DbAdapterBase {
     this.logger = logger;
     this.dbConfig = dbConfig;
     this.connection = null;
+    this.logPrefix = `[${this.constructor.name}] `;
   }
 
   async connect() {

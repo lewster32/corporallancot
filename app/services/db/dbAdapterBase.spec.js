@@ -24,6 +24,11 @@ describe("dbAdapterBase", () => {
     expect(dbAdapter.connection).toBeNull();
   });
 
+  it("sets logPrefix to square-bracketed constructor name with space suffix", () => {
+    const dbAdapter = new DbAdapterBase(dbConfig, logger);
+    expect(dbAdapter.logPrefix).toBe("[DbAdapterBase] ");
+  });
+
   it("connect() throws NotImplemented (should be implemented in child class)", async () => {
     // Arrange
     const dbAdapter = new DbAdapterBase(dbConfig, logger);

@@ -6,7 +6,8 @@ module.exports = class ActionHandlerBase {
   constructor(logger, command) {
     this.command = command;
     this.logger = logger;
-    this.logger.log(`Initialising '!${command}' action handler`);
+    this.logPrefix = `[${this.constructor.name}] `;
+    this.logger.log(`${this.logPrefix}Initialising '!${command}' action handler`);
   }
 
   isMatch(action) {

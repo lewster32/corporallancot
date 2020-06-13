@@ -25,11 +25,11 @@ const MySQL = require("mysql2/promise");
 const Discord = require("discord.js");
 
 // IoC container - these are the only references to console.log() that should exist in the application
-console.log("Creating IoC container");
+console.log("[Root] Creating IoC container");
 const container = ioc.createContainer({
   injectionMode: ioc.InjectionMode.PROXY
 })
-console.log("Registering services");
+console.log("[Root] Registering services");
 
 container.register({
   bot: ioc.asClass(Bot, { lifetime: Lifetime.SINGLETON }),
@@ -69,6 +69,6 @@ container.register({
       .concat([container.cradle.helpAction]);
   }, { lifetime: Lifetime.SINGLETON })
 });
-container.cradle.logger.log("All services registered");
+container.cradle.logger.log("[Root] All services registered");
 
 module.exports = container;
