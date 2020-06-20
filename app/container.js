@@ -7,19 +7,11 @@ const Lifetime = ioc.Lifetime;
 // App
 const Bot = require('@root/bot');
 // Services
-<<<<<<< HEAD
 const DbConfig = require('@services/db/dbConfig');
 const DbAdapter = require('@dbAdapters/mariaDbAdapter');
 const Config = require('@services/appConfig/appConfig');
 const Logger = require('@services/logging/logger');
 const LoggerConfig = require('@services/logging/loggerConfig');
-=======
-const DbConfig = require('./services/db/dbConfig');
-const Db = require('./services/db/db');
-const Config = require('./services/appConfig/appConfig');
-const Logger = require('./services/logging/logger');
-const LoggerConfig = require('./services/logging/loggerConfig');
->>>>>>> e324bf18b5c60b69e667aa38c73f5a0a9816c274
 // Actions
 const HelpActionHandler = require("@actions/handlers/helpActionHandler");
 const NotesActionHandler = require("@actions/handlers/notesActionHandler");
