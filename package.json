@@ -16,7 +16,9 @@
     "awilix": "^4.2.6",
     "discord.js": "^12.2.0",
     "module-alias": "^2.2.2",
-    "mysql2": "^2.1.0"
+    "mysql2": "^2.1.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.5.0"
   },
   "devDependencies": {
     "chokidar-cli": "^2.1.0",
@@ -31,6 +33,8 @@
     "@services": "app/services",
     "@errors": "app/errors",
     "@dbRepositories": "app/services/db/repositories",
-    "@dbAdapters": "app/services/db/adapters"
+    "@dbAdapters": "app/services/db/adapters",
+    "@actionhandlers": "app/actions/handlers",
+    "@logging": "app/services/logging"
   }
 }
