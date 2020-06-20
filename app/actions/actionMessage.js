@@ -1,4 +1,6 @@
-module.exports = class DiscordMessage {
+'use strict';
+
+module.exports = class ActionMessage {
   constructor(message) {
     if (!message || message.replace(/\s/g, '').length <= 0) {
       throw new Error("'message' is required");

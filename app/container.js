@@ -5,32 +5,36 @@ const ioc = require('awilix');
 const Lifetime = ioc.Lifetime;
 
 // App
-const Bot = require('./bot');
+const Bot = require('@root/bot');
 // Services
-const DbConfig = require('./services/db/dbConfig');
-const Db = require('./services/db/db');
-const Config = require('./services/appConfig/appConfig');
-const Logger = require('./services/logging/logger');
+const DbConfig = require('@services/db/dbConfig');
+const DbAdapter = require('@dbAdapters/mariaDbAdapter');
+const Config = require('@services/appConfig/appConfig');
+const Logger = require('@services/logging/logger');
 // Actions
-const HelpActionHandler = require("./actions/handlers/helpactionhandler");
-const NotesActionHandler = require("./actions/handlers/notesactionhandler");
-const QuoteActionHandler = require("./actions/handlers/quoteactionhandler");
+const HelpActionHandler = require("@actions/handlers/helpActionHandler");
+const NotesActionHandler = require("@actions/handlers/notesActionHandler");
+const QuoteActionHandler = require("@actions/handlers/quoteActionHandler");
+// Action Persistence Handlers
+const NotesActionPersistenceHandler = require("@actions/persistenceHandlers/notesActionPersistenceHandler");
+// DB Repositories
+const NotesRepository = require("@dbRepositories/notesRepository");
+
 // 3rd party
 const MySQL = require("mysql2/promise");
 const Discord = require("discord.js");
 
 // IoC container - these are the only references to console.log() that should exist in the application
-console.log("Creating IoC container");
+console.log("[Root] Creating IoC container");
 const container = ioc.createContainer({
   injectionMode: ioc.InjectionMode.PROXY
 })
-console.log("Registering services");
+console.log("[Root] Registering services");
 
 container.register({
   bot: ioc.asClass(Bot, { lifetime: Lifetime.SINGLETON }),
   configFilePath: ioc.asValue("config.json"),
   dbConfig: ioc.asClass(DbConfig),
-  db: ioc.asClass(Db, { lifetime: Lifetime.SINGLETON }),
   appConfig: ioc.asFunction(Config),
   logger: ioc.asClass(Logger),
   mySql: ioc.asValue(MySQL),
@@ -39,10 +43,19 @@ container.register({
   botName: ioc.asValue(process.env.npm_package_name),
   botDescription: ioc.asValue(process.env.npm_package_description),
 
-  // Register Actions
+  // Register Action persistence handlers - TODO: Register automatically
+  notesActionPersistenceHandler: ioc.asClass(NotesActionPersistenceHandler, { lifetime: Lifetime.SINGLETON }),
+
+  // Register database and repositories
+  dbAdapter: ioc.asClass(DbAdapter, { lifetime: Lifetime.SINGLETON }),
+  // TODO: Register repos automatically. Note that these do not need to be singletons.
+  notesRepository: ioc.asClass(NotesRepository),
+
+  // Register Actions - TODO: Register automatically
   helpAction: ioc.asClass(HelpActionHandler),
   notesAction: ioc.asClass(NotesActionHandler),
   quoteAction: ioc.asClass(QuoteActionHandler),
+
   // Add all of the above actions into the below returned array
   helpActionActions: ioc.asFunction(function () {
     return [
@@ -56,6 +69,6 @@ container.register({
       .concat([container.cradle.helpAction]);
   }, { lifetime: Lifetime.SINGLETON })
 });
-container.cradle.logger.log("All services registered");
+container.cradle.logger.log("[Root] All services registered");
 
 module.exports = container;

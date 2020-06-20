@@ -1,6 +1,8 @@
-const ActionHandler = require("@actions/actionhandler");
+'use strict';
 
-module.exports = class HelpActionHandler extends ActionHandler {
+const ActionHandlerBase = require("@actions/actionHandlerBase");
+
+module.exports = class HelpActionHandler extends ActionHandlerBase {
   help = "`!help` to show this message.";
 
   constructor({ logger, helpActionActions }) {
@@ -13,7 +15,6 @@ module.exports = class HelpActionHandler extends ActionHandler {
       return;
     }
     let helpText = this.actions.map((action) => action.help).join("\r\n");
-    // let helpText = "test reply";
     return helpText;
   }
 };

@@ -1,0 +1,26 @@
+'use strict';
+
+module.exports = class NotesActionPersistenceHandler {
+  constructor({ logger, notesRepository }) {
+    this.logger = logger;
+    this.repository = notesRepository;
+
+    this.logPrefix = `[${this.constructor.name}] `;
+    this.logger.log(`${this.logPrefix}Initialising action persistence handler`);
+  }
+
+  async insertNote(timestamp, userID, channelID, nick, message) {
+    this.logger.log(`${this.logPrefix}Inserting new note`);
+    return await this.repository.insertNote(timestamp, userID, channelID, nick, message);
+  }
+
+  async getRandomNote() {
+    this.logger.log(`${this.logPrefix}Retrieving random note`);
+    return await this.repository.getRandomNote();
+  }
+
+  async getRandomNoteByContent(message) {
+    this.logger.log(`${this.logPrefix}Retrieving random note with search term '${message}'`);
+    return await this.repository.getRandomNoteByContent(message);
+  }
+};

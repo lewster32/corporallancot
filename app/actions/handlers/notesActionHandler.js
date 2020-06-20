@@ -1,11 +1,13 @@
-const ActionHandler = require("@actions/actionhandler");
+'use strict';
 
-module.exports = class NotesActionHandler extends ActionHandler {
+const ActionHandlerBase = require("@actions/actionHandlerBase");
+
+module.exports = class NotesActionHandler extends ActionHandlerBase {
   help = "`!notes [message]` records a note.";
 
-  constructor({ logger, db }) {
+  constructor({ logger, notesActionPersistenceHandler }) {
     super(logger, "notes");
-    this.db = db;
+    this.persistenceHandler = notesActionPersistenceHandler;
   }
 
   async handle(action, msg) {
@@ -21,7 +23,7 @@ module.exports = class NotesActionHandler extends ActionHandler {
     }
 
     try {
-      await this.db.insertNote(timestamp, userID, channelID, nick, action.data);
+      await this.persistenceHandler.insertNote(timestamp, userID, channelID, nick, action.data);
       return "thanks, I've recorded that for you.";
     } catch (e) {
       console.error(e);

@@ -5,7 +5,7 @@
     "!node_modules/**/*"
   ],
   "helpers": [
-    "helpers/**/*.js"
+    "spec/helpers/**/*.js"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": true

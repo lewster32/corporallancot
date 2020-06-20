@@ -11,14 +11,6 @@ describe("dbConfig", function () {
     expect(dbConfig.database).toBe(appConfig.db);
   });
 
-  it("maps injected appConfig.dbTable property to .notesTable", function () {
-    const appConfig = {
-      dbTable: "test_table"
-    };
-    const dbConfig = new DbConfig({ appConfig: appConfig });
-    expect(dbConfig.notesTable).toBe(appConfig.dbTable);
-  });
-
   it("maps injected appConfig.dbHost property to .server", function () {
     const appConfig = {
       dbHost: "test_server"
@@ -63,12 +55,6 @@ describe("dbConfig", function () {
     const appConfig = {};
     const dbConfig = new DbConfig({ appConfig: appConfig });
     expect(dbConfig.server).toBe("localhost");
-  });
-
-  it("uses default value of 'notes' for .notesTable if appConfig.dbTable is empty", function () {
-    const appConfig = {};
-    const dbConfig = new DbConfig({ appConfig: appConfig });
-    expect(dbConfig.notesTable).toBe("notes");
   });
 
   it("uses default value of '10' for .connRetryCount if appConfig.dbConnectionRetryCount is empty", function () {
