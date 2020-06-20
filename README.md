@@ -1,5 +1,9 @@
 # Corporal Lancot
 
+> Corporal Lancot's corpse says 'My comrades will avenge my death.'  
+> Corporal Lancot staggers.  
+> You have slain Corporal Lancot!
+
 A dockerised Discord bot written in Node.js, primarily for recording, searching and retrieving notes and quotes from a database. This project currently uses MariaDB as a backing store.
 
 ## To Run
