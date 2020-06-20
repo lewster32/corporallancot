@@ -25,6 +25,7 @@ const NotesRepository = require("@dbRepositories/notesRepository");
 const MySQL = require("mysql2/promise");
 const Discord = require("discord.js");
 const Winston = require("winston");
+require("winston-daily-rotate-file"); // I guess this patches Winston's transports?
 
 // IoC container - these are the only references to console.log() that should exist in the application
 console.log("[Root] Creating IoC container");

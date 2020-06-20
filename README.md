@@ -56,3 +56,18 @@ docker-compose up -d
 * Use `!quote` to retrieve a random message from the notes archive
 * Use `!quote <search term>` to retrieve a message using a basic search
 * Use `!help` to show a help message
+
+## Logging
+
+By default, the bot will log its output to the console, however you can provide the following options inside your `config.json` to configure where and how it logs:
+
+* `logLevel`: log only if the level is less than or equal to this level (default `"info"`)
+* `logTimeStampFormat`: the [fecha](https://github.com/taylorhakes/fecha) date format for time stamps on log entries (defaults to [Winston](https://github.com/winstonjs)'s default timestamp format)
+* `logTransports`: an array or delimiter separated list of desired transports; currently supports `console`, `file` and `rolling` (default `["console"]`)
+* `logPath`: the directory to output log files to (default `"./logs"`, requires `file` or `rolling` transport)
+* `logFileName`: the name of the file - including `%DATE%` will insert the rolling date into that location (if not specified, and a `rolling` transport is specified, the date will be appended to the filename) (default `"./bot.log"`, requires `file` or `rolling` transport)
+* `logDailyRotateDatePattern`: the [Moment.js](https://momentjs.com/) date format for including in file names - also specifies the frequency of log rotations via the granularity of the date format (default `"YYYY-MM-DD"`, requires `rolling` transport)
+* `logDailyRotateFrequency`: overrides `logDailyRotateDatePattern` to specify a particular timed rotation in `#h` or `#m` format (e.g., '5m' or '3h') (default `null`, requires `rolling` transport)
+* `logDailyRotateMaxFiles`: the maximum number of logs to keep - this can be a number for the number of files, or a string in the format `#d` for a total number of days' worth of logs (default `null`, requires `rolling` transport)
+* `logDailyRotateMaxSize`: the maximum size of the file after which it will rotate - this can be a number of bytes, or units of kb, mb, and gb - if using the units, add `k`, `m`, or `g` as the suffix (the units need to directly follow the number) (default `null`, requires `rolling` transport)
+* `logDailyRotateZipped`: whether or not to gzip archived log files (default `false`, requires `rolling` transport)

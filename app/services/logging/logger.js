@@ -5,6 +5,7 @@ const path = require("path");
 class LoggerTransports {
   static CONSOLE = "console";
   static FILE = "file";
+  static ROLLING = "rolling";
 }
 
 module.exports = class Logger {
@@ -19,20 +20,48 @@ module.exports = class Logger {
     if (this.hasTransport(LoggerTransports.CONSOLE)) {
       transports.push(
         new this.winston.transports.Console({
-          format: this.getLogFormat()
+          format: this.getLogFormat(),
         })
       );
     }
 
+    // Rolling and file are mutually exclusive, and rolling
+    // trumps the file transport.
     if (
+      this.hasTransport(LoggerTransports.ROLLING) &&
+      this.loggerConfig.rotate &&
+      this.loggerConfig.path &&
+      this.loggerConfig.fileName
+    ) {
+      transports.push(
+        new this.winston.transports.DailyRotateFile({
+          // Check if the provided filename has the rolling
+          // date placeholder - if not, append it.
+          filename: /%DATE%/g.test(this.loggerConfig.fileName)
+            ? this.loggerConfig.fileName
+            : this.loggerConfig.fileName + "%DATE%",
+          dirname: this.loggerConfig.path,
+          datePattern: this.loggerConfig.rotate.datePattern,
+          zippedArchive: this.loggerConfig.rotate.zipped,
+          maxSize: this.loggerConfig.rotate.maxSize,
+          maxFiles: this.loggerConfig.rotate.maxFiles,
+          format: this.getLogFormat(),
+        })
+      );
+    } else if (
       this.hasTransport(LoggerTransports.FILE) &&
       this.loggerConfig.path &&
       this.loggerConfig.fileName
     ) {
       transports.push(
         new this.winston.transports.File({
-          filename: path.join(this.loggerConfig.path,this.loggerConfig.fileName),
-          format: this.getLogFormat()
+          // If a rolling date placeholder has somehow crept
+          // through, let's make sure to remove it here.
+          filename: path.join(
+            this.loggerConfig.path,
+            this.loggerConfig.fileName.replace(/%DATE%/g, "")
+          ),
+          format: this.getLogFormat(),
         })
       );
     }
