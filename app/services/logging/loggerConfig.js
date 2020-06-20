@@ -11,8 +11,8 @@ module.exports = class LoggerConfig {
     this.rotate = {
       datePattern: appConfig.logDailyRotateDatePattern || "YYYY-MM-DD",
       frequency: appConfig.logDailyRotateFrequency || null,
-      maxFiles: appConfig.logDailyRotateMaxFiles || "7d",
-      maxSize: appConfig.logDailyRotateMaxSize || "10m",
+      maxFiles: appConfig.logDailyRotateMaxFiles || null,
+      maxSize: appConfig.logDailyRotateMaxSize || null,
       zipped: appConfig.logDailyRotateZipped || false,
     };
   }

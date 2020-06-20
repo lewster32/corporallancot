@@ -6,26 +6,34 @@ const Lifetime = ioc.Lifetime;
 
 // App
 const Bot = require('@root/bot');
+
 // Services
 const DbConfig = require('@services/db/dbConfig');
 const DbAdapter = require('@dbAdapters/mariaDbAdapter');
 const Config = require('@services/appConfig/appConfig');
 const Logger = require('@services/logging/logger');
 const LoggerConfig = require('@services/logging/loggerConfig');
+const LogFormatter = require("@logging/formatters/defaultLogFormatter");
+
 // Actions
 const HelpActionHandler = require("@actions/handlers/helpActionHandler");
 const NotesActionHandler = require("@actions/handlers/notesActionHandler");
 const QuoteActionHandler = require("@actions/handlers/quoteActionHandler");
+
 // Action Persistence Handlers
 const NotesActionPersistenceHandler = require("@actions/persistenceHandlers/notesActionPersistenceHandler");
+
 // DB Repositories
 const NotesRepository = require("@dbRepositories/notesRepository");
+
+// Node std lib
+const Path = require("path");
 
 // 3rd party
 const MySQL = require("mysql2/promise");
 const Discord = require("discord.js");
 const Winston = require("winston");
-require("winston-daily-rotate-file"); // I guess this patches Winston's transports?
+const WinstonDailyRotateFile = require("winston-daily-rotate-file/daily-rotate-file");
 
 // IoC container - these are the only references to console.log() that should exist in the application
 console.log("[Root] Creating IoC container");
@@ -39,11 +47,14 @@ container.register({
   configFilePath: ioc.asValue("config.json"),
   dbConfig: ioc.asClass(DbConfig),
   appConfig: ioc.asFunction(Config),
-  logger: ioc.asClass(Logger, { lifetime: Lifetime.SINGLETON }),
+  path: ioc.asValue(Path),
   loggerConfig: ioc.asClass(LoggerConfig),
+  logFormatter: ioc.asClass(LogFormatter, { lifetime: Lifetime.SINGLETON }),
+  logger: ioc.asClass(Logger, { lifetime: Lifetime.SINGLETON }),
   mySql: ioc.asValue(MySQL),
   discord: ioc.asValue(Discord),
   winston: ioc.asValue(Winston),
+  winstonDailyRotateFile: ioc.asValue(WinstonDailyRotateFile),
   botVersion: ioc.asValue(process.env.npm_package_version),
   botName: ioc.asValue(process.env.npm_package_name),
   botDescription: ioc.asValue(process.env.npm_package_description),
@@ -74,6 +85,6 @@ container.register({
       .concat([container.cradle.helpAction]);
   }, { lifetime: Lifetime.SINGLETON })
 });
-container.cradle.logger.init().log("[Root] All services registered");
+container.cradle.logger.log("[Root] All services registered");
 
 module.exports = container;

@@ -34,6 +34,7 @@
     "@errors": "app/errors",
     "@dbRepositories": "app/services/db/repositories",
     "@dbAdapters": "app/services/db/adapters",
-    "@actionhandlers": "app/actions/handlers"
+    "@actionhandlers": "app/actions/handlers",
+    "@logging": "app/services/logging"
   }
 }

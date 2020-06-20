@@ -1,7 +1,5 @@
 "use strict";
 
-const path = require("path");
-
 class LoggerTransports {
   static CONSOLE = "console";
   static FILE = "file";
@@ -9,9 +7,14 @@ class LoggerTransports {
 }
 
 module.exports = class Logger {
-  constructor({ winston, loggerConfig }) {
+  constructor({ winston, winstonDailyRotateFile, loggerConfig, logFormatter, path }) {
     this.winston = winston;
+    this.winston.transports.DailyRotateFile = winstonDailyRotateFile;
     this.loggerConfig = loggerConfig;
+    this.logFormatter = logFormatter;
+    this.path = path;
+
+    this.init();
   }
 
   init() {
@@ -20,7 +23,7 @@ module.exports = class Logger {
     if (this.hasTransport(LoggerTransports.CONSOLE)) {
       transports.push(
         new this.winston.transports.Console({
-          format: this.getLogFormat(),
+          format: this.logFormatter.getFormat(),
         })
       );
     }
@@ -45,7 +48,7 @@ module.exports = class Logger {
           zippedArchive: this.loggerConfig.rotate.zipped,
           maxSize: this.loggerConfig.rotate.maxSize,
           maxFiles: this.loggerConfig.rotate.maxFiles,
-          format: this.getLogFormat(),
+          format: this.logFormatter.getFormat(),
         })
       );
     } else if (
@@ -57,11 +60,11 @@ module.exports = class Logger {
         new this.winston.transports.File({
           // If a rolling date placeholder has somehow crept
           // through, let's make sure to remove it here.
-          filename: path.join(
+          filename: this.path.join(
             this.loggerConfig.path,
             this.loggerConfig.fileName.replace(/%DATE%/g, "")
           ),
-          format: this.getLogFormat(),
+          format: this.logFormatter.getFormat(),
         })
       );
     }
@@ -72,8 +75,6 @@ module.exports = class Logger {
         transports,
       });
     }
-
-    return this;
   }
 
   exec(level, message, optionalParams) {
@@ -121,17 +122,6 @@ module.exports = class Logger {
 
   error(message, ...optionalParams) {
     this.exec("error", message, optionalParams);
-  }
-
-  getLogFormat() {
-    return this.winston.format.combine(
-      this.winston.format.timestamp({
-        format: this.loggerConfig.timestampFormat,
-      }),
-      this.winston.format.printf(
-        (info) => `${info.timestamp} [${info.level}] ${info.message}`
-      )
-    );
   }
 
   hasTransport(transport) {
