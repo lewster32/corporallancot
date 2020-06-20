@@ -107,8 +107,12 @@ dist
 config.json
 invite.txt
 <<<<<<< HEAD
+<<<<<<< HEAD
 # The below directory is mounted to DB_SQL_SCRIPTS_MOUNT_PATH
 .sql/
 =======
 logs/
 >>>>>>> 60d83e7... WIP - Started logger abstraction
+=======
+logs/
+>>>>>>> e324bf18b5c60b69e667aa38c73f5a0a9816c274
