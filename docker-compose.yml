@@ -24,3 +24,5 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: "no"
+    volumes:
+      - ${BOT_LOGS_MOUNT_PATH}:/bot/logs

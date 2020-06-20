@@ -15,6 +15,7 @@ A dockerised Discord bot written in Node.js, primarily for recording, searching 
 DB_LOCAL_PORT=3306
 DB_MOUNT_PATH=<DATABASE_MOUNT_PATH>
 DB_SQL_SCRIPTS_MOUNT_PATH=<SCRIPTS_MOUNT_PATH>
+BOT_LOGS_MOUNT_PATH=<LOGS_MOUNT_PATH>
 MYSQL_ROOT_PASSWORD=<YOUR_ROOT_PW>
 MYSQL_USER=notes
 MYSQL_PASSWORD=<NOTES_USER_PW>
@@ -23,6 +24,7 @@ MYSQL_DATABASE=notes
 * Where:
   * `<DATABASE_MOUNT_PATH>` is the host machine path where the database files will be persisted. On a Windows host you can use something like `d:/docker-mounts/corporallancot.db`, on a Linux host `/docker-mounts/corporallancot.db`.
   * `<SCRIPTS_MOUNT_PATH>` is the host machine path where any SQL scripts that need to be executed after the container is created are located. See [Initializing a fresh instance on this page](https://hub.docker.com/_/mariadb/) for more information. This is useful for running ETL and / or custom setup scripts for the database. This can be an empty directory and follows the same rules as `<DATABASE_MOUNT_PATH>`. The [.gitignore](.gitignore) file for this project implies that custom database setup scripts should be kept in the `.sql` directory in the root; on Windows the mount path would be something similar to `D:/Git/Personal/corporallancot/.sql`.
+  * `<LOGS_MOUNT_PATH>` is the host machine path where the bot logs will be persisted. On a Windows host you can use something like `d:/docker-mounts/corporallancot.bot.logs`, on a Linux host `/docker-mounts/corporallancot.bot.logs`.
   * `<YOUR_ROOT_PW>` is the database's root password. This is for administrative purposes only. The root user is not used by the application.
   * `<NOTES_USER_PW>` is the database's `notes` user password. This is the account that the application uses to connect to the database.
 

@@ -16,4 +16,6 @@ COPY /config.json /bot
 COPY /index.js /bot
 COPY /app /bot/app
 
+VOLUME /bot/logs
+
 CMD ["npm", "start"]
