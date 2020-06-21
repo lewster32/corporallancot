@@ -3,15 +3,13 @@
 const ActionHandlerBase = require("@actions/actionHandlerBase");
 
 module.exports = class QuoteActionHandler extends ActionHandlerBase {
-  help =
-    "`!quote <search>` finds a note (if `search` is omitted, I'll just find a random note).";
-
   constructor({ logger, notesActionPersistenceHandler }) {
     super(logger, "quote");
     this.persistenceHandler = notesActionPersistenceHandler;
+    this.help = "`!quote <search>` finds a note (if `search` is omitted, I'll just find a random note).";
   }
 
-  async handle(action, msg) {
+  async handle(action) {
     if (!action) {
       return;
     }

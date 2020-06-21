@@ -5,7 +5,7 @@ const faker = require('faker'); // https://github.com/marak/Faker.js/
 
 describe("notesActionPersistenceHandler", () => {
   const logger = {
-    log: function (msg) { }
+    log: function () { }
   };
 
   it("sets logger to .logger property", () => {

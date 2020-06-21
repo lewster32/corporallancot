@@ -5,7 +5,7 @@ const NotImplemented = require("@errors/notImplemented");
 
 describe("dbAdapterBase", () => {
   const logger = {
-    log: function (msg) { }
+    log: function () { }
   };
   const dbConfig = { };
 

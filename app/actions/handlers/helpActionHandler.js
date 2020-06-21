@@ -3,14 +3,13 @@
 const ActionHandlerBase = require("@actions/actionHandlerBase");
 
 module.exports = class HelpActionHandler extends ActionHandlerBase {
-  help = "`!help` to show this message.";
-
   constructor({ logger, helpActionActions }) {
     super(logger, "help");
     this.actions = helpActionActions;
+    this.help = "`!help` to show this message.";
   }
 
-  async handle(action, msg) {
+  async handle(action) {
     if (!action) {
       return;
     }
