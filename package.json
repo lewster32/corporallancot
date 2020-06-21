@@ -4,6 +4,8 @@
   "description": "Halt!",
   "main": "index.js",
   "author": "Lewis 'SEPTiMUS' Lane",
+  "repository": "github:lewster32/corporallancot",
+  "license": "MIT",
   "scripts": {
     "start": "dotenv -- node index.js",
     "start:hosted": "node index.js",
