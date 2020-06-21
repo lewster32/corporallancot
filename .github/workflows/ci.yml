@@ -1,0 +1,33 @@
+name: Corporal Lancot CI Build
+
+on:
+  push:
+    branches: [ master, feature/* ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  corporallancot:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Install Node Dependencies
+      working-directory: ./
+      run: |
+        npm set progress=false
+        npm install --no-progress
+    - name: Linter
+      working-directory: ./
+      run: npm run lint
+    - name: Jasmine Tests
+      working-directory: ./
+      run: npm run test
+    - name: Build Docker
+      working-directory: ./
+      run: |
+          set -x;
+          docker-compose build;

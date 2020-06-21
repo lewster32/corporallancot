@@ -10,7 +10,9 @@
     "docker:stop": "docker-compose down",
     "docker:watch": "chokidar -p \"{docker-compose.yml,Dockerfile,.dockerignore,package.json,**/*.js}\" --ignore \"{**/*.spec.js,node_modules/**/*,spec/**/*}\" -c \"npm run docker:start && docker logs corporallancot.bot\" --initial --debounce 1000",
     "test": "jasmine",
-    "test:watch": "chokidar -p \"**/*.js\" --ignore \"node_modules/**/*\" -c \"npm run test\" --initial --debounce 500"
+    "test:watch": "chokidar -p \"**/*.js\" --ignore \"node_modules/**/*\" -c \"npm run test\" --initial --debounce 500",
+    "lint": "eslint .",
+    "lint:watch": "chokidar -p \"**/*.js\" --ignore \"node_modules/**/*\" -c \"npm run lint\" --initial --debounce 500"
   },
   "dependencies": {
     "awilix": "^4.2.6",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "chokidar-cli": "^2.1.0",
+    "eslint": "^7.3.0",
     "faker": "^4.1.0",
     "jasmine": "^3.5.0",
     "jasmine-console-reporter": "^3.1.0",
