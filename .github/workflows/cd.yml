@@ -13,6 +13,7 @@ env:
   BOT_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot # Cannot use variable references here - hence repeat info
 
   # docker-compose.yml file required environment variables for building the image(s)
+  IMAGE_PREFIX: docker.pkg.github.com/lewster32/corporallancot/
   BOT_DB_LOCAL_PORT: 3306
   BOT_DB_SERVER: corporallancot.db
   BOT_DB_MOUNT_PATH: /tmp/cl/db
