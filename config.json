@@ -1,0 +1,22 @@
+{
+  "discord": {
+    "key": null
+  },
+  "database": {
+    "name": null,
+    "server": null,
+    "user": null,
+    "password": null,
+    "connectionRetryCount": 10,
+    "connectionRetryDelay": 5000
+  },
+  "logging": {
+    "logLevel": "info",
+    "logTransports": [
+      "console",
+      "rolling"
+    ],
+    "logFileName": "bot.%DATE%.log",
+    "logTimestampFormat": "YYYY-MM-DD HH:mm:ss.SSS"
+  }
+}
