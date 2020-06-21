@@ -1,5 +1,13 @@
 # Corporal Lancot
 
+![License](https://img.shields.io/github/license/lewster32/corporallancot)
+![Version](https://img.shields.io/github/package-json/v/lewster32/corporallancot)
+![CI Build](https://img.shields.io/github/workflow/status/lewster32/corporallancot/Corporal%20Lancot%20CI%20Build?label=CI%20Build)
+![CD Build](https://img.shields.io/github/workflow/status/lewster32/corporallancot/Corporal%20Lancot%20CD%20Build?label=CD%20Build)
+![Issues Open](https://img.shields.io/github/issues/lewster32/corporallancot)
+![PRs Open](https://img.shields.io/github/issues-pr/lewster32/corporallancot)
+![Last Commit](https://img.shields.io/github/last-commit/lewster32/corporallancot)
+
 A containerised Discord bot written in Node.js, primarily for recording, searching and retrieving notes and quotes from a database. This project currently uses MariaDB as a backing store.
 
 ## To Run
