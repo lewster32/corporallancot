@@ -40,11 +40,11 @@ jobs:
         continue-on-error: false
         shell: bash {0}
         run: |
-          $PACKAGE_VERSION=$(cat package.json \
+          PACKAGE_VERSION=$(cat package.json \
           | grep version \
           | head -1 \
           | awk -F: '{ print $2 }' \
-          | sed 's/[",]//g')
+          | sed 's/[",]//g');
           if [ "${PACKAGE_VERSION}" != "$IMAGE_TAG" ]; then echo Version is '${PACKAGE_VERSION}' in package.json - tag version mismatch. Update package.json before publishing; exit 1; fi
       - name: Pull latest images for cache
         continue-on-error: true
