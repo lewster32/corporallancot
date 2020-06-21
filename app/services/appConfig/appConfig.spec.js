@@ -46,7 +46,7 @@ describe("appConfig", function () {
     expect(appConfig.database.name).toBe(expectedValue);
   });
 
-  it("sets environment BOT_DB_SERVER to database.name", function () {
+  it("sets environment BOT_DB_SERVER to database.server", function () {
     const expectedValue = faker.lorem.word();
     const configFilePath = "config.json";
     const environment = {
@@ -56,7 +56,7 @@ describe("appConfig", function () {
     expect(appConfig.database.server).toBe(expectedValue);
   });
 
-  it("sets environment BOT_DB_USER to database.name", function () {
+  it("sets environment BOT_DB_USER to database.user", function () {
     const expectedValue = faker.lorem.word();
     const configFilePath = "config.json";
     const environment = {
@@ -66,7 +66,7 @@ describe("appConfig", function () {
     expect(appConfig.database.user).toBe(expectedValue);
   });
 
-  it("sets environment BOT_DB_PASSWORD to database.name", function () {
+  it("sets environment BOT_DB_PASSWORD to database.password", function () {
     const expectedValue = faker.lorem.word();
     const configFilePath = "config.json";
     const environment = {
