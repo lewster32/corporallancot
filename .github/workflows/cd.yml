@@ -10,8 +10,8 @@ on:
 env:
   IMAGE_TAG: 0.1.0 # For testing purposes only. Dealt with in the "Get image tags" task.
   DOCKER_REGISTRY: docker.pkg.github.com
-  BOT_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot-bot # Cannot use variable references here - hence repeat info
-  DB_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot-db
+  BOT_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot.bot # Cannot use variable references here - hence repeat info
+  DB_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot.db
 
   # docker-compose.yml file required environment variables for building the image
   BOT_DB_LOCAL_PORT: 3306
