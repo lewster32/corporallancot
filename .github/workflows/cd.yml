@@ -2,7 +2,7 @@ name: Corporal Lancot CD Build
 
 on:
   push:
-    branches: [ feature/feature/19-github-actions-cd ] # Temp for testing
+    branches: [ feature/19-github-actions-cd ] # Temp for testing
     # Devs must "tag and push" to release a new version
     # tags:
     #   - "[0-9]+.[0-9]+.[0-9]+"
