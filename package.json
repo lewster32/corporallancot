@@ -13,7 +13,8 @@
     "test": "jasmine",
     "test:watch": "chokidar -p \"{**/*.js,package.json,spec/support/jasmine.json}\" --ignore \"node_modules/**/*\" -c \"npm run test\" --initial --debounce 500",
     "lint": "eslint .",
-    "lint:watch": "chokidar -p \"{**/*.js,.eslintrc.json,package.json}\" --ignore \"node_modules/**/*\" -c \"npm run lint\" --initial --debounce 500"
+    "lint:watch": "chokidar -p \"{**/*.js,.eslintrc.json,package.json}\" --ignore \"node_modules/**/*\" -c \"npm run lint\" --initial --debounce 500",
+    "logs": "docker logs corporallancot.bot"
   },
   "dependencies": {
     "awilix": "^4.2.6",
