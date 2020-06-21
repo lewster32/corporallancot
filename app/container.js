@@ -34,6 +34,7 @@ console.log("[Root] Registering services");
 container.register({
   bot: ioc.asClass(Bot, { lifetime: Lifetime.SINGLETON }),
   configFilePath: ioc.asValue("config.json"),
+  environment: ioc.asValue(process.env),
   dbConfig: ioc.asClass(DbConfig),
   appConfig: ioc.asFunction(Config),
   logger: ioc.asClass(Logger),

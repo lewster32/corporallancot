@@ -14,7 +14,7 @@ module.exports = class ActionHandlerBase {
     return (this.command && this.command === action.command);
   }
 
-  async handle(action, msg) {
+  async handle() {
     throw NotImplemented;
   }
 };

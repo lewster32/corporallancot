@@ -3,9 +3,9 @@ version: "3.1"
 services:
   db:
     image: mariadb:10.5.3
-    container_name: corporallancot.db
+    container_name: ${BOT_DB_SERVER}
     ports:
-      - "${DB_LOCAL_PORT}:3306"
+      - "${BOT_DB_LOCAL_PORT}:3306"
     restart: "no"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -13,8 +13,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
-      - ${DB_MOUNT_PATH}:/var/lib/mysql
-      - ${DB_SQL_SCRIPTS_MOUNT_PATH}:/docker-entrypoint-initdb.d
+      - ${BOT_DB_MOUNT_PATH}:/var/lib/mysql
+      - ${BOT_DB_SQL_SCRIPTS_MOUNT_PATH}:/docker-entrypoint-initdb.d
   bot:
     image: corporallancot:latest
     container_name: corporallancot.bot
@@ -24,3 +24,9 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: "no"
+    environment:
+      BOT_DISCORD_KEY: ${BOT_DISCORD_KEY}
+      BOT_DB_SERVER: ${BOT_DB_SERVER}
+      BOT_DB_NAME: ${MYSQL_DATABASE}
+      BOT_DB_USER: ${MYSQL_USER}
+      BOT_DB_PASSWORD: ${MYSQL_PASSWORD}

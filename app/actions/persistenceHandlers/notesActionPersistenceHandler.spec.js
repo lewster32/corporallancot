@@ -1,11 +1,11 @@
 'use strict';
 
 const NotesActionPersistenceHandler = require("@actions/persistenceHandlers/notesActionPersistenceHandler");
-const faker = require('faker'); // https://github.com/marak/Faker.js/
+const faker = require('faker');
 
 describe("notesActionPersistenceHandler", () => {
   const logger = {
-    log: function (msg) { }
+    log: function () { }
   };
 
   it("sets logger to .logger property", () => {
@@ -33,11 +33,11 @@ describe("notesActionPersistenceHandler", () => {
     var notesRepository = jasmine.createSpyObj("notesRepository", ["insertNote"])
     notesRepository.insertNote.and.returnValue(Promise.resolve());
 
-    const timestamp = faker.date.recent;
-    const userID = faker.random.number;
-    const channelID = faker.random.number;
+    const timestamp = faker.date.recent();
+    const userID = faker.random.number();
+    const channelID = faker.random.number();
     const nick = faker.userName;
-    const message = faker.lorem.sentence;
+    const message = faker.lorem.sentence();
 
     const handler = new NotesActionPersistenceHandler({ logger, notesRepository });
 
@@ -51,7 +51,7 @@ describe("notesActionPersistenceHandler", () => {
 
   it("insertNote returns repository.insertNote as result", async () => {
     // Arrange
-    const expectedResult = faker.fake;
+    const expectedResult = faker.random.objectElement();
     var notesRepository = jasmine.createSpyObj("notesRepository", ["insertNote"])
     notesRepository.insertNote.and.returnValue(expectedResult);
 
@@ -66,7 +66,7 @@ describe("notesActionPersistenceHandler", () => {
   //////////////////
   it("getRandomNote returns repository.getRandomNote as result", async () => {
     // Arrange
-    const expectedResult = faker.fake;
+    const expectedResult = faker.random.objectElement();
     var notesRepository = jasmine.createSpyObj("notesRepository", ["getRandomNote"])
     notesRepository.getRandomNote.and.returnValue(expectedResult);
 
@@ -83,7 +83,7 @@ describe("notesActionPersistenceHandler", () => {
     // Arrange
     var notesRepository = jasmine.createSpyObj("notesRepository", ["getRandomNoteByContent"])
     notesRepository.getRandomNoteByContent.and.returnValue(Promise.resolve());
-    const searchPhrase = faker.lorem.sentence;
+    const searchPhrase = faker.lorem.sentence();
 
     const handler = new NotesActionPersistenceHandler({ logger, notesRepository });
 
@@ -97,7 +97,7 @@ describe("notesActionPersistenceHandler", () => {
 
   it("getRandomNoteByContent returns repository.getRandomNoteByContent as result", async () => {
     // Arrange
-    const expectedResult = faker.fake;
+    const expectedResult = faker.random.objectElement();
     var notesRepository = jasmine.createSpyObj("notesRepository", ["getRandomNoteByContent"])
     notesRepository.getRandomNoteByContent.and.returnValue(expectedResult);
 

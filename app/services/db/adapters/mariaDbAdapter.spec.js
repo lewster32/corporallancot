@@ -5,7 +5,7 @@ var theoretically = require("jasmine-theories");
 
 describe("mariaDbAdapter", () => {
   let logger = {
-    log: function (msg) { }
+    log: function () { }
   };
   let dbConfig = {
     connRetryCount: 0,
@@ -17,7 +17,7 @@ describe("mariaDbAdapter", () => {
     }
   };
   let fakeConnection = async () => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(expectedConnection);
     })
   }

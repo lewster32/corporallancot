@@ -16,4 +16,4 @@ COPY /config.json /bot
 COPY /index.js /bot
 COPY /app /bot/app
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:hosted"]

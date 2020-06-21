@@ -1,0 +1,42 @@
+name: Corporal Lancot CI Build
+
+on:
+  push:
+    branches: [ master, feature/* ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  # IMAGE_TAG: 2.0.3 # For testing purposes only. Dealt with in the "Get image tags" task.
+  DOCKER_REGISTRY: docker.pkg.github.com
+  BOT_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot-bot # Cannot use variable references here - hence repeat info
+  DB_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot-db
+
+  # docker-compose.yml file required environment variables for just build
+  BOT_DB_LOCAL_PORT: 3306
+
+jobs:
+  corporallancot:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Install Node Dependencies
+      working-directory: ./
+      run: |
+        npm set progress=false
+        npm install --no-progress
+    - name: Linter
+      working-directory: ./
+      run: npm run lint
+    - name: Jasmine Tests
+      working-directory: ./
+      run: npm run test
+    - name: Build Docker
+      working-directory: ./
+      run: |
+          set -x;
+          docker-compose build;

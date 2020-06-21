@@ -104,7 +104,7 @@ dist
 .tern-port
 
 # Project specific files
-config.json
 invite.txt
-# The below directory is mounted to DB_SQL_SCRIPTS_MOUNT_PATH
+
+# The below directory is mounted to BOT_DB_SQL_SCRIPTS_MOUNT_PATH
 .sql/

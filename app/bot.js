@@ -44,7 +44,7 @@ module.exports = class Bot {
           resolve(true);
         });
 
-        this.client.login(this.appConfig.key);
+        this.client.login(this.appConfig.discord.key);
       } catch (e) {
         reject(e);
       }
