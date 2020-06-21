@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Log in to docker packages
-        run: docker login ${DOCKER_REGISTRY} --username lewster32 --password ${{ secrets.GITHUB_TOKEN }}
+        run: docker login ${DOCKER_REGISTRY} --username ${GITHUB_ACTOR} --password ${{ secrets.GITHUB_TOKEN }}
       - name: Set version from git tag
         run: echo ::set-env name=IMAGE_TAG::${GITHUB_REF/refs\/tags\//}
       - name: Check image version does not exist
