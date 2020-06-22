@@ -4,7 +4,7 @@ const DiscordMessage = require("./actions/actionMessage");
 
 module.exports = class Bot {
   constructor({
-    appConfig,
+    discordChatListenerConfig,
     actions,
     discord,
     botVersion,
@@ -18,13 +18,8 @@ module.exports = class Bot {
     this.logger.log(`${this.logPrefix}*** ${botDescription} ***`);
 
     this.actions = actions;
-    this.appConfig = appConfig;
+    this.discordToken = discordChatListenerConfig.token;
     this.discord = discord;
-
-    // TODO: Fix this up for new deps!
-    if (!this.discord || !this.actions || !this.appConfig) {
-      throw new Error("Missing required constructor dependencies");
-    }
   }
 
   async init() {
@@ -44,7 +39,7 @@ module.exports = class Bot {
           resolve(true);
         });
 
-        this.client.login(this.appConfig.discord.key);
+        this.client.login(this.discordToken);
       } catch (e) {
         reject(e);
       }

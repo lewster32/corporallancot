@@ -36,6 +36,7 @@
     "@services": "app/services",
     "@errors": "app/errors",
     "@dbRepositories": "app/services/db/repositories",
-    "@dbAdapters": "app/services/db/adapters"
+    "@dbAdapters": "app/services/db/adapters",
+    "@chatListeners": "app/services/chatListeners"
   }
 }
