@@ -7,15 +7,13 @@ module.exports = class Bot {
     discordChatListenerConfig,
     actions,
     discord,
-    botVersion,
-    botName,
-    botDescription,
+    botConfig,
     logger
   }) {
     this.logPrefix = `[${this.constructor.name}] `;
     this.logger = logger;
-    this.logger.log(`${this.logPrefix}*** Welcome to ${botName} v${botVersion}! ***`);
-    this.logger.log(`${this.logPrefix}*** ${botDescription} ***`);
+    this.logger.log(`${this.logPrefix}*** Welcome to ${botConfig.name} v${botConfig.version}! ***`);
+    this.logger.log(`${this.logPrefix}*** ${botConfig.description} ***`);
 
     this.actions = actions;
     this.discordToken = discordChatListenerConfig.token;

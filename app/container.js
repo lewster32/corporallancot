@@ -8,6 +8,7 @@ const Lifetime = ioc.Lifetime;
 const Bot = require('@root/bot');
 // Config
 const Config = require('@services/appConfig/appConfig');
+const BotConfig = require('@root/botConfig');
 const DbConfig = require('@services/db/dbConfig');
 const DiscordChatListenerConfig = require('@chatListeners/discord/discordChatListenerConfig');
 
@@ -43,9 +44,7 @@ container.register({
   appConfig: ioc.asFunction(Config),
   dbConfig: ioc.asClass(DbConfig),
   discordChatListenerConfig: ioc.asClass(DiscordChatListenerConfig),
-  botVersion: ioc.asValue(process.env.npm_package_version),
-  botName: ioc.asValue(process.env.npm_package_name),
-  botDescription: ioc.asValue(process.env.npm_package_description),
+  botConfig: ioc.asClass(BotConfig),
   // Logging
   logger: ioc.asClass(Logger),
   // 3rd Party
