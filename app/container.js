@@ -6,10 +6,14 @@ const Lifetime = ioc.Lifetime;
 
 // App
 const Bot = require('@root/bot');
-// Services
-const DbConfig = require('@services/db/dbConfig');
-const DbAdapter = require('@dbAdapters/mariaDbAdapter');
+// Config
 const Config = require('@services/appConfig/appConfig');
+const BotConfig = require('@root/botConfig');
+const DbConfig = require('@services/db/dbConfig');
+const DiscordChatListenerConfig = require('@chatListeners/discord/discordChatListenerConfig');
+
+// Services
+const DbAdapter = require('@dbAdapters/mariaDbAdapter');
 const Logger = require('@services/logging/logger');
 // Actions
 const HelpActionHandler = require("@actions/handlers/helpActionHandler");
@@ -32,17 +36,20 @@ const container = ioc.createContainer({
 console.log("[Root] Registering services");
 
 container.register({
+  // Bootstrap
   bot: ioc.asClass(Bot, { lifetime: Lifetime.SINGLETON }),
+  // Config
   configFilePath: ioc.asValue("config.json"),
   environment: ioc.asValue(process.env),
-  dbConfig: ioc.asClass(DbConfig),
   appConfig: ioc.asFunction(Config),
+  dbConfig: ioc.asClass(DbConfig),
+  discordChatListenerConfig: ioc.asClass(DiscordChatListenerConfig),
+  botConfig: ioc.asClass(BotConfig),
+  // Logging
   logger: ioc.asClass(Logger),
+  // 3rd Party
   mySql: ioc.asValue(MySQL),
   discord: ioc.asValue(Discord),
-  botVersion: ioc.asValue(process.env.npm_package_version),
-  botName: ioc.asValue(process.env.npm_package_name),
-  botDescription: ioc.asValue(process.env.npm_package_description),
 
   // Register Action persistence handlers - TODO: Register automatically
   notesActionPersistenceHandler: ioc.asClass(NotesActionPersistenceHandler, { lifetime: Lifetime.SINGLETON }),

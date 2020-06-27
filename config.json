@@ -1,4 +1,9 @@
 {
+  "bot": {
+    "name": null,
+    "version": null,
+    "description": null
+  },
   "discord": {
     "key": null
   },
