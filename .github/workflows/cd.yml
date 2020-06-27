@@ -1,0 +1,70 @@
+name: Corporal Lancot CD Build
+
+on:
+  push:
+    # Devs must "tag and push" to release a new version
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+env:
+  #IMAGE_TAG: 0.1.0 # For testing purposes only. Dealt with in the "Get image tags" task.
+  DOCKER_REGISTRY: docker.pkg.github.com
+  BOT_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot # Cannot use variable references here - hence repeat info
+
+  # docker-compose.yml file required environment variables for building the image(s)
+  IMAGE_PREFIX: docker.pkg.github.com/lewster32/corporallancot/
+  BOT_DB_LOCAL_PORT: 3306
+  BOT_DB_SERVER: corporallancot.db
+  BOT_DB_MOUNT_PATH: /tmp/cl/db
+  BOT_DB_SQL_SCRIPTS_MOUNT_PATH: /tmp/cl/sqlscripts
+  BOT_LOGS_MOUNT_PATH: /tmp/cl/logs
+
+jobs:
+  buildDockerImages:
+    name: Build & Publish Docker Images Using Registry Cache
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Log in to docker packages
+        run: docker login ${DOCKER_REGISTRY} --username ${GITHUB_ACTOR} --password ${{ secrets.GITHUB_TOKEN }}
+      - name: Set version from git tag
+        run: echo ::set-env name=IMAGE_TAG::${GITHUB_REF/refs\/tags\//}
+      - name: Check image version does not exist
+        continue-on-error: false
+        shell: bash {0}
+        run: |
+          docker pull ${BOT_IMAGE}:${IMAGE_TAG} 2>&1;
+          if [ "$?" = "0" ] ; then { echo ${BOT_IMAGE}:${IMAGE_TAG} already exists in registry; exit 1; }; else exit 0; fi
+      - name: Check VERSION file is up to date
+        continue-on-error: false
+        shell: bash {0}
+        run: |
+          PACKAGE_VERSION=$(cat package.json \
+          | grep version \
+          | head -1 \
+          | awk -F: '{ print $2 }' \
+          | sed 's/[",]//g');
+          if [ $PACKAGE_VERSION != "$IMAGE_TAG" ]; then echo Version is '$PACKAGE_VERSION' in package.json - tag version mismatch. Update package.json before publishing; exit 1; fi
+      - name: Pull latest images for cache
+        continue-on-error: true
+        run: |
+          set -x;
+          docker pull ${BOT_IMAGE}:latest || true;
+          docker image ls;
+      - name: Build docker images
+        run: |
+          set -x;
+          docker-compose build --compress;
+          docker image ls;
+      - name: Tag images
+        run: |
+          set -x;
+          docker tag ${BOT_IMAGE}:latest ${BOT_IMAGE}:${IMAGE_TAG};
+          docker image ls;
+      - name: Push images
+        run: |
+          set -x;
+          docker push ${BOT_IMAGE}:latest;
+          docker push ${BOT_IMAGE}:${IMAGE_TAG};
+      - name: Docker logout
+        run: docker logout ${DOCKER_REGISTRY}

@@ -7,11 +7,6 @@ on:
     branches: [ master ]
 
 env:
-  # IMAGE_TAG: 2.0.3 # For testing purposes only. Dealt with in the "Get image tags" task.
-  DOCKER_REGISTRY: docker.pkg.github.com
-  BOT_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot-bot # Cannot use variable references here - hence repeat info
-  DB_IMAGE: docker.pkg.github.com/lewster32/corporallancot/corporallancot-db
-
   # docker-compose.yml file required environment variables for just build
   BOT_DB_LOCAL_PORT: 3306
 
@@ -27,15 +22,16 @@ jobs:
     - name: Install Node Dependencies
       working-directory: ./
       run: |
-        npm set progress=false
-        npm install --no-progress
-    - name: Linter
+        set -x;
+        npm set progress=false;
+        npm install --no-progress;
+    - name: Lint
       working-directory: ./
       run: npm run lint
-    - name: Jasmine Tests
+    - name: Tests
       working-directory: ./
       run: npm run test
-    - name: Build Docker
+    - name: Build Docker Images
       working-directory: ./
       run: |
           set -x;

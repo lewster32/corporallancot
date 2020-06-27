@@ -1,9 +1,11 @@
 {
   "name": "corporal-lancot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Halt!",
   "main": "index.js",
   "author": "Lewis 'SEPTiMUS' Lane",
+  "repository": "github:lewster32/corporallancot",
+  "license": "MIT",
   "scripts": {
     "start": "dotenv -- node index.js",
     "start:hosted": "node index.js",
@@ -13,7 +15,8 @@
     "test": "jasmine",
     "test:watch": "chokidar -p \"{**/*.js,package.json,spec/support/jasmine.json}\" --ignore \"node_modules/**/*\" -c \"npm run test\" --initial --debounce 500",
     "lint": "eslint .",
-    "lint:watch": "chokidar -p \"{**/*.js,.eslintrc.json,package.json}\" --ignore \"node_modules/**/*\" -c \"npm run lint\" --initial --debounce 500"
+    "lint:watch": "chokidar -p \"{**/*.js,.eslintrc.json,package.json}\" --ignore \"node_modules/**/*\" -c \"npm run lint\" --initial --debounce 500",
+    "logs": "docker logs corporallancot.bot"
   },
   "dependencies": {
     "awilix": "^4.2.6",

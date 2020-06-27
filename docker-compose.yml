@@ -16,7 +16,7 @@ services:
       - ${BOT_DB_MOUNT_PATH}:/var/lib/mysql
       - ${BOT_DB_SQL_SCRIPTS_MOUNT_PATH}:/docker-entrypoint-initdb.d
   bot:
-    image: corporallancot:latest
+    image: ${IMAGE_PREFIX}corporallancot:latest
     container_name: corporallancot.bot
     depends_on:
       - db
