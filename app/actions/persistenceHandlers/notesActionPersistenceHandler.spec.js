@@ -51,7 +51,7 @@ describe("notesActionPersistenceHandler", () => {
 
   it("insertNote returns repository.insertNote as result", async () => {
     // Arrange
-    const expectedResult = faker.random.objectElement();
+    const expectedResult = {};
     var notesRepository = jasmine.createSpyObj("notesRepository", ["insertNote"])
     notesRepository.insertNote.and.returnValue(expectedResult);
 
@@ -66,7 +66,7 @@ describe("notesActionPersistenceHandler", () => {
   //////////////////
   it("getRandomNote returns repository.getRandomNote as result", async () => {
     // Arrange
-    const expectedResult = faker.random.objectElement();
+    const expectedResult = {};
     var notesRepository = jasmine.createSpyObj("notesRepository", ["getRandomNote"])
     notesRepository.getRandomNote.and.returnValue(expectedResult);
 
@@ -97,7 +97,7 @@ describe("notesActionPersistenceHandler", () => {
 
   it("getRandomNoteByContent returns repository.getRandomNoteByContent as result", async () => {
     // Arrange
-    const expectedResult = faker.random.objectElement();
+    const expectedResult = {};
     var notesRepository = jasmine.createSpyObj("notesRepository", ["getRandomNoteByContent"])
     notesRepository.getRandomNoteByContent.and.returnValue(expectedResult);
 

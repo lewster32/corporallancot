@@ -1,6 +1,6 @@
 'use strict';
 
-const DiscordMessage = require("./actions/actionMessage");
+const DiscordMessage = require("./actions/messageResolver");
 
 module.exports = class Bot {
   constructor({
@@ -22,25 +22,37 @@ module.exports = class Bot {
 
   async init() {
     this.logger.log(`${this.logPrefix}Initialising bot`);
-    await this.initDiscord();
-    this.logger.log(`${this.logPrefix}Initialisation complete`);
+    await this.initDiscord()
+      .then(async () => {
+        this.logger.log(`${this.logPrefix}Initialisation complete`);
+      });
     await this.listen();
   }
 
   async initDiscord() {
     this.logger.log(`${this.logPrefix}Logging in to Discord`);
     return new Promise((resolve, reject) => {
-      try {
+      // try {
         this.client = new this.discord.Client();
-        this.client.once("ready", () => {
-          this.logger.log(`${this.logPrefix}Logged into Discord`);
-          resolve(true);
-        });
 
-        this.client.login(this.discordToken);
-      } catch (e) {
-        reject(e);
-      }
+      //try {
+        this.client.login(this.discordToken)
+          .then(() => {
+            console.log("resolve1");
+            // console.log(a);
+
+            resolve(true);
+            this.logger.log(`${this.logPrefix}Logged into Discord2`);
+          })
+          .catch(e => {
+            console.log("ERROR1");
+            reject(e);
+          });
+        // resolve(true);
+      // } catch (e) {
+      //   console.log("ERROR3");
+
+      // }
     });
   }
 

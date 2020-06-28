@@ -16,9 +16,11 @@ const DiscordChatListenerConfig = require('@chatListeners/discord/discordChatLis
 const DbAdapter = require('@dbAdapters/mariaDbAdapter');
 const Logger = require('@services/logging/logger');
 // Actions
+const MessageResolver = require("@actions/messageResolver");
 const HelpActionHandler = require("@actions/handlers/helpActionHandler");
 const NotesActionHandler = require("@actions/handlers/notesActionHandler");
 const QuoteActionHandler = require("@actions/handlers/quoteActionHandler");
+const GenericActionHandler = require("@actions/handlers/genericActionHandler");
 // Action Persistence Handlers
 const NotesActionPersistenceHandler = require("@actions/persistenceHandlers/notesActionPersistenceHandler");
 // DB Repositories
@@ -60,19 +62,22 @@ container.register({
   notesRepository: ioc.asClass(NotesRepository),
 
   // Register Actions - TODO: Register automatically
+  genericActionHandler: ioc.asClass(GenericActionHandler),
   helpAction: ioc.asClass(HelpActionHandler),
   notesAction: ioc.asClass(NotesActionHandler),
   quoteAction: ioc.asClass(QuoteActionHandler),
 
+  // Actions
+  messageResolver: ioc.asClass(MessageResolver),
   // Add all of the above actions into the below returned array
-  helpActionActions: ioc.asFunction(function () {
+  helpActionActions: ioc.asFunction(() => {
     return [
       container.cradle.notesAction,
       container.cradle.quoteAction
     ];
   }, { lifetime: Lifetime.SINGLETON }),
   // Also include the help action. Do not inject this registration into any actions as you will create a cyclic dependency
-  actions: ioc.asFunction(function () {
+  actions: ioc.asFunction(() => {
     return container.cradle.helpActionActions
       .concat([container.cradle.helpAction]);
   }, { lifetime: Lifetime.SINGLETON })

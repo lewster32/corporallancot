@@ -2,10 +2,20 @@
   "bot": {
     "name": null,
     "version": null,
-    "description": null
-  },
-  "discord": {
-    "key": null
+    "description": null,
+    "chatListeners": [
+      {
+        "name": "discord",
+        "enabled": true,
+        "enabledActions": [
+          "notes",
+          "quote"
+        ],
+        "settings": {
+          "key": null
+        }
+      }
+    ]
   },
   "database": {
     "name": null,

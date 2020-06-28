@@ -2,12 +2,20 @@
 
 module.exports = class DiscordChatListenerConfig {
   constructor({ appConfig }) {
-    if (appConfig.discord) {
-      this.token = appConfig.discord.key;
+    // Defaults
+    this.token = null;
+    this.enabled = false;
+
+    if (!appConfig || !appConfig.bot || !appConfig.bot.chatListeners || appConfig.bot.chatListeners.length <= 0) {
+      return;
+    }
+    const config = appConfig.bot.chatListeners.find(x => x.name == "discord");
+    if (!config || !config.settings) {
       return;
     }
 
-    // Defaults
-    this.token = null;
+    // Inject found config settings
+    this.token = config.settings.key;
+    this.enabled = config.enabled;
   }
 }

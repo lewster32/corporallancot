@@ -27,13 +27,19 @@ describe("appConfig", function () {
 
   // Sensitive info mapping
   it("sets environment BOT_DISCORD_KEY to discord.key", function () {
+    // Arrange
     const expectedValue = faker.lorem.word();
     const configFilePath = "config.json";
     const environment = {
       BOT_DISCORD_KEY: expectedValue
     };
+
+    // Act
     const appConfig = AppConfig({ configFilePath, environment });
-    expect(appConfig.discord.key).toBe(expectedValue);
+
+    // Assert
+    const discordEntry = appConfig.bot.chatListeners.find(x => x.name === "discord");
+    expect(discordEntry.settings.key).toBe(expectedValue);
   });
 
   it("sets environment BOT_DB_NAME to database.name", function () {

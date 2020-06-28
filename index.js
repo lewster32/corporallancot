@@ -11,5 +11,6 @@ const Container = require('@root/container');
     .init()
     .catch((e) => {
       Container.cradle.logger.log("A fatal error occurred:\n", e);
+      process.exit();
     });
 })();

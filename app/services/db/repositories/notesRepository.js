@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS ${this.tableName} (
   user_id     BIGINT(8),
   channel_id  BIGINT(8),
   nick        VARCHAR(255) NOT NULL,
+  server      VARCHAR(255) NOT NULL,
   message     LONGTEXT NOT NULL
 );`);
     if (resultHeader.warningStatus === 0) {
@@ -44,10 +45,10 @@ CREATE TABLE IF NOT EXISTS ${this.tableName} (
     this.tableCreated = true;
   }
 
-  async insertNote(timestamp, userID, channelID, nick, message) {
+  async insertNote(timestamp, userID, channelID, nick, message, server) {
     this.init();
-    return await this.dbAdapter.connection.query(`INSERT INTO ${this.tableName} (timestamp, user_id, channel_id, nick, message) VALUES (?, ?, ?, ?, ?);`,
-      [timestamp, userID, channelID, nick, message]
+    return await this.dbAdapter.connection.query(`INSERT INTO ${this.tableName} (timestamp, user_id, channel_id, nick, message, server) VALUES (?, ?, ?, ?, ?, ?);`,
+      [timestamp, userID, channelID, nick, message, server]
     );
   }
 
