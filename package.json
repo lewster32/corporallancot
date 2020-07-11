@@ -35,11 +35,13 @@
   },
   "_moduleAliases": {
     "@root": "app",
-    "@actions": "app/actions",
+    "@actionHandlers": "app/actionHandlers",
+    "@actionPersistenceHandlers": "app/actionPersistenceHandlers",
     "@services": "app/services",
     "@errors": "app/errors",
+    "@config": "app/config",
     "@dbRepositories": "app/services/db/repositories",
     "@dbAdapters": "app/services/db/adapters",
-    "@chatListeners": "app/services/chatListeners"
+    "@chatListeners": "app/chatListeners"
   }
 }

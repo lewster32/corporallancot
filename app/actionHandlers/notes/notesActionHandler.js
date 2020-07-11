@@ -1,6 +1,6 @@
 'use strict';
 
-const ActionHandlerBase = require("@actions/actionHandlerBase");
+const ActionHandlerBase = require("@actionHandlers/actionHandlerBase");
 
 module.exports = class NotesActionHandler extends ActionHandlerBase {
   constructor({ logger, notesActionPersistenceHandler }) {

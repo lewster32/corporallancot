@@ -3,7 +3,7 @@
 const MessageResolverBase = require("./messageResolverBase");
 var theoretically = require("jasmine-theories");
 
-describe("actionMessage", () => {
+describe("messageResolverBase", () => {
   theoretically.it("throws error if message is '%s' (not a string)", [null, "", " ", undefined], (insertedValue) => {
     const resolver = new MessageResolverBase();
     expect(() => { resolver.resolveChatMessage(insertedValue) }).toThrowError("'message' is required");

@@ -1,6 +1,6 @@
 'use strict';
 
-const MariaDbAdapter = require("@dbAdapters/mariaDbAdapter");
+const MariaDbAdapter = require("@dbAdapters/mariaDb/mariaDbAdapter");
 var theoretically = require("jasmine-theories");
 
 describe("mariaDbAdapter", () => {

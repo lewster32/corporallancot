@@ -1,6 +1,6 @@
 'use strict';
 
-const NotesActionPersistenceHandler = require("@actions/persistenceHandlers/notesActionPersistenceHandler");
+const NotesActionPersistenceHandler = require("@actionPersistenceHandlers/notes/notesActionPersistenceHandler");
 const faker = require('faker');
 
 describe("notesActionPersistenceHandler", () => {

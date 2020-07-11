@@ -86,10 +86,10 @@ describe("discordChatListenerConfig", function () {
   };
 
   theoretically.it("sets enabled to false when appConfig is '%s'", [null, "", " ", undefined, {}, confEmptyBot, confNullChatListeners, confEmptyChatListeners, confNoDiscordChatListener, confNoSettings], (insertedValue) => {
-      // Act
-      const actualValue = new DiscordChatListenerConfig({ appConfig: insertedValue });
+    // Act
+    const actualValue = new DiscordChatListenerConfig({ appConfig: insertedValue });
 
-      // Assert
-      expect(actualValue.enabled).toBe(false);
-    });
+    // Assert
+    expect(actualValue.enabled).toBe(false);
+  });
 });

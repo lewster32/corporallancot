@@ -10,7 +10,7 @@ const Container = require('@root/container');
   await Container.cradle.bot
     .init()
     .catch((e) => {
-      Container.cradle.logger.log("A fatal error occurred:\n", e);
+      Container.cradle.logger.log("Halt! A fatal error occurred:\n", e);
       process.exit();
     });
 })();

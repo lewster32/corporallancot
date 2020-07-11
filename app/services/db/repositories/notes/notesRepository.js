@@ -1,6 +1,6 @@
 'use strict';
 
-const DbRepositoryBase = require("@services/db/dbRepositoryBase");
+const DbRepositoryBase = require("@dbRepositories/dbRepositoryBase");
 
 module.exports = class NotesRepository extends DbRepositoryBase {
   constructor({ dbAdapter, logger }) {
@@ -46,21 +46,21 @@ CREATE TABLE IF NOT EXISTS ${this.tableName} (
   }
 
   async insertNote(timestamp, userID, channelID, nick, message, server) {
-    this.init();
+    await this.init();
     return await this.dbAdapter.connection.query(`INSERT INTO ${this.tableName} (timestamp, user_id, channel_id, nick, message, server) VALUES (?, ?, ?, ?, ?, ?);`,
       [timestamp, userID, channelID, nick, message, server]
     );
   }
 
   async getRandomNote() {
-    this.init();
+    await this.init();
     return await this.dbAdapter.connection.query(
       `SELECT nick, message FROM ${this.tableName} ORDER BY RAND() LIMIT 1;`
     );
   }
 
   async getRandomNoteByContent(message) {
-    this.init();
+    await this.init();
     return await this.dbAdapter.connection.query(
       `SELECT nick, message FROM ${this.tableName} WHERE message LIKE ? ORDER BY RAND() LIMIT 1;`,
       [`%${message}%`]

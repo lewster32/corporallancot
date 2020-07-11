@@ -1,11 +1,11 @@
 'use strict';
 
 const NotImplemented = require("@errors/notImplemented");
-const ActionHandlerMessage = require("@actions/actionHandlerMessage");
+const ActionHandlerMessage = require("@actionHandlers/actionHandlerMessage");
 
 module.exports = class MessageResolverBase {
-  resolve() {
-    // Must be overridden and call resolveChatMessage()
+  async resolve() {
+    // Must be overridden and must call resolveChatMessage(inputMessage.<chatMessageProp>)
     throw NotImplemented();
   }
 

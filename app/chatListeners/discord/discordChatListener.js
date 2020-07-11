@@ -1,47 +1,53 @@
 'use strict';
 
 module.exports = class DiscordChatListener {
-  constructor({ logger, discordChatListenerConfig, discordClient, discordMessageResolver, genericActionHandler }) {
+  constructor({ logger, actionHandlerResolver, discordChatListenerConfig, discordClient, discordMessageResolver }) {
     this.logger = logger;
     this.config = discordChatListenerConfig;
     this.client = discordClient;
     this.messageResolver = discordMessageResolver;
-    this.genericActionHandler = genericActionHandler;
+    this.actionHandlerResolver = actionHandlerResolver;
     this.logPrefix = `[${this.constructor.name}] `;
   }
 
   async init() {
-    this.logger.log(`${this.logPrefix}Initialising - logging in to Discord`);
+    this.logger.log(`${this.logPrefix}Initialising - logging in`);
 
     await this.client
       .login(this.config.token)
       .then(() => {
-        this.logger.log(`${this.logPrefix}Logged in to Discord`);
+        this.logger.log(`${this.logPrefix}Logged in`);
         this.logger.log(`${this.logPrefix}Registering message listener`);
 
-        this.client.on("message", msg => this.messageHandler(msg));
+        this.client.on("message", async (msg) => {
+          await this.handleMessage(msg)
+            .catch((e) => {
+              this.logger.log(`${this.logPrefix}Discord message handling error:\n`, e);
+            });
+        });
 
-        this.logger.log(`${this.logPrefix}Registered message listener`);
+        this.logger.log(`${this.logPrefix}Message listener registered`);
       });
 
     this.logger.log(`${this.logPrefix}Initialised successfully`);
   }
 
-  messageHandler(discordMessage) {
+  async handleMessage(discordMessage) {
     if (!discordMessage || !(typeof discordMessage === "object")) {
       return;
     }
-    const content = discordMessage.content;
 
-    this.logger.log(`${this.logPrefix}Received content '${content}'`);
-    const message = this.messageResolver.resolve(discordMessage);
+    this.logger.log(`${this.logPrefix}Received content '${discordMessage.content}'`);
 
-    if (!message.isBangCommand) {
-      this.genericActionHandler.handle(message);
-    }
+    const actionHandlerMessage = await this.messageResolver.resolve(discordMessage);
 
-    return "jeff";
+    const actionHandler = await this.actionHandlerResolver.resolve(actionHandlerMessage);
+
+    const reply = await actionHandler.handle(actionHandlerMessage);
+
+    discordMessage.reply(reply);
   }
+
   // async listenHandler(msg) {
   //   const content = msg.content;
   //   if (!content || !(content[0] === "!")) {

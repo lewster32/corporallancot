@@ -1,6 +1,6 @@
 'use strict';
 
-const DbAdapterBase = require("@services/db/dbAdapterBase");
+const DbAdapterBase = require("@dbAdapters/dbAdapterBase");
 
 module.exports = class MariaDbAdapter extends DbAdapterBase {
   constructor({ mySql, dbConfig, logger }) {
