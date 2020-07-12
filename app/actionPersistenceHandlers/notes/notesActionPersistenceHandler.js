@@ -9,9 +9,9 @@ module.exports = class NotesActionPersistenceHandler {
     this.logger.log(`${this.logPrefix}Initialising action persistence handler`);
   }
 
-  async insertNote(timestamp, userID, channelID, nick, message) {
+  async insertNote(timestamp, userID, channelID, nick, message, server) {
     this.logger.log(`${this.logPrefix}Inserting new note`);
-    return await this.repository.insertNote(timestamp, userID, channelID, nick, message);
+    return await this.repository.insertNote(timestamp, userID, channelID, nick, message, server);
   }
 
   async getRandomNote() {

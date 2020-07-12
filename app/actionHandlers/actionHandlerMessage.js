@@ -12,6 +12,7 @@ module.exports = class ActionHandlerMessage {
 
     // Remaining properties are overridden by each *MessageResolver
     this.server = null;
+    this.isBot = false;
 
     this.userId = 0;
     this.channelId = 0

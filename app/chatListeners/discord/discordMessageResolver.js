@@ -1,7 +1,6 @@
 'use strict';
 
 const MessageResolverBase = require("@chatListeners/messageResolverBase");
-const ActionHandlerMessage = require("@actionHandlers/actionHandlerMessage");
 
 module.exports = class DiscordMessageResolver extends MessageResolverBase {
   constructor({ logger }) {
@@ -25,6 +24,7 @@ module.exports = class DiscordMessageResolver extends MessageResolverBase {
       if (discordMessage.author) {
         message.userId = discordMessage.author.id;
         message.nick = discordMessage.author.username;
+        message.isBot = discordMessage.author.bot;
       }
       if (discordMessage.channel) {
         message.channelId = discordMessage.channel.id;

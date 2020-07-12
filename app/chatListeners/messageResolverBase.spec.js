@@ -21,10 +21,10 @@ describe("messageResolverBase", () => {
     expect(action.command).toBe("mycommand");
   });
 
-  it("sets isBang to true when bang found in message", () => {
+  it("sets isBangCommand to true when bang found in message", () => {
     const message = "!mycommand";
     const action = new MessageResolverBase().resolveChatMessage(message);
-    expect(action.isBang).toBeTrue();
+    expect(action.isBangCommand).toBeTrue();
   });
 
   it("sets command to lowercase command string when command found", () => {
@@ -57,9 +57,9 @@ describe("messageResolverBase", () => {
     expect(action.data).toBe(message);
   });
 
-  it("sets isBang to false when no bang command found in message", () => {
+  it("sets isBangCommand to false when no bang command found in message", () => {
     const message = "jeff is a lovely person";
     const action = new MessageResolverBase().resolveChatMessage(message);
-    expect(action.isBang).toBeFalse();
+    expect(action.isBangCommand).toBeFalse();
   });
 });

@@ -9,20 +9,23 @@ module.exports = class NotesActionHandler extends ActionHandlerBase {
     this.help = "`!notes [message]` records a note.";
   }
 
-  async handle(action, msg) {
-    if (!action || !msg) {
+  async handle(actionHandlerMessage) {
+    if (!actionHandlerMessage) {
       return;
     }
-    const userID = msg.author.id;
-    const channelID = msg.channel.id;
-    const nick = msg.author.username;
-    const timestamp = msg.createdAt;
-    if (!action.data) {
+    const userID = actionHandlerMessage.userId;
+    const channelID = actionHandlerMessage.channelId;
+    const nick = actionHandlerMessage.nick;
+    const timestamp = actionHandlerMessage.timestamp;
+    const data = actionHandlerMessage.data;
+    const server = actionHandlerMessage.server;
+
+    if (!data) {
       return "I can't record an empty note! " + this.help;
     }
 
     try {
-      await this.persistenceHandler.insertNote(timestamp, userID, channelID, nick, action.data);
+      await this.persistenceHandler.insertNote(timestamp, userID, channelID, nick, data, server);
       return "thanks, I've recorded that for you.";
     } catch (e) {
       console.error(e);

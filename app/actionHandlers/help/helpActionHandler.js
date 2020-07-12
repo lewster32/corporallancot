@@ -9,11 +9,11 @@ module.exports = class HelpActionHandler extends ActionHandlerBase {
     this.help = "`!help` to show this message.";
   }
 
-  async handle(action) {
-    if (!action) {
+  async handle(actionHandlerMessage) {
+    if (!actionHandlerMessage) {
       return;
     }
-    let helpText = this.actions.map((action) => action.help).join("\r\n");
+    let helpText = this.actions.map(a => a.help).join("\r\n");
     return helpText;
   }
 };

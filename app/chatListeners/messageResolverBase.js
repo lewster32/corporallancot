@@ -6,7 +6,7 @@ const ActionHandlerMessage = require("@actionHandlers/actionHandlerMessage");
 module.exports = class MessageResolverBase {
   async resolve() {
     // Must be overridden and must call resolveChatMessage(inputMessage.<chatMessageProp>)
-    throw NotImplemented();
+    throw NotImplemented;
   }
 
   resolveChatMessage(chatMessage) {
@@ -18,14 +18,14 @@ module.exports = class MessageResolverBase {
     const action = new ActionHandlerMessage();
     action.command = "";
     action.data = "";
-    action.isBang = false;
+    action.isBangCommand = false;
 
     // Slice up message string to make parameters
     const matches = /^!([a-z]+)(?:\s+(.*))?$/gi.exec(chatMessage);
     if (!matches || matches.length <= 0) {
       action.data = chatMessage;
     } else {
-      action.isBang = true;
+      action.isBangCommand = true;
       action.command = matches[1].toLowerCase();
       if (matches[2]) {
         action.data = matches[2];

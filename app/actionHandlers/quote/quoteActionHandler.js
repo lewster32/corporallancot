@@ -9,12 +9,12 @@ module.exports = class QuoteActionHandler extends ActionHandlerBase {
     this.help = "`!quote <search>` finds a note (if `search` is omitted, I'll just find a random note).";
   }
 
-  async handle(action) {
-    if (!action) {
+  async handle(actionHandlerMessage) {
+    if (!actionHandlerMessage) {
       return;
     }
 
-    if (!action.data) {
+    if (!actionHandlerMessage.data) {
       try {
         const [rows] = await this.persistenceHandler.getRandomNote();
         if (rows.length) {
@@ -28,7 +28,7 @@ module.exports = class QuoteActionHandler extends ActionHandlerBase {
       }
     } else {
       try {
-        const [rows] = await this.persistenceHandler.getRandomNoteByContent(action.data);
+        const [rows] = await this.persistenceHandler.getRandomNoteByContent(actionHandlerMessage.data);
         if (rows.length) {
           return `\`${rows[0]["nick"]}\`: \`\`\`${rows[0].message}\`\`\``;
         } else {

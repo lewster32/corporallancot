@@ -52,12 +52,14 @@ describe("discordMessageResolver", function () {
     const expectedUsername = faker.internet.userName();
     const expectedTimestamp = faker.date.recent();
     const expectedServer = "discord";
+    const expectedIsBot = faker.random.boolean();
 
     const discordMessage = jasmine.createSpyObj("discordMessage", null, {
       content: faker.lorem.sentences(),
       author: {
         id: expectedUserId,
-        username: expectedUsername
+        username: expectedUsername,
+        bot: expectedIsBot
       },
       channel: {
         id: expectedChannelId
@@ -76,5 +78,6 @@ describe("discordMessageResolver", function () {
     expect(result.nick).toBe(expectedUsername);
     expect(result.timestamp).toBe(expectedTimestamp);
     expect(result.server).toBe(expectedServer);
+    expect(result.isBot).toBe(expectedIsBot);
   });
 });

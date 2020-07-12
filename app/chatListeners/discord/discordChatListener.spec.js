@@ -1,8 +1,8 @@
 'use strict';
 
 const DiscordChatListener = require("./discordChatListener");
+const ChatListenerBase = require("@chatListeners/chatListenerBase");
 const faker = require('faker');
-var theoretically = require("jasmine-theories");
 
 describe("discordChatListener init()", () => {
   let discordClient;
@@ -18,14 +18,6 @@ describe("discordChatListener init()", () => {
     discordChatListenerConfig = jasmine.createSpyObj("discordChatListenerConfig", {
       token: faker.lorem.word()
     });
-  });
-
-  it("sets logger property from logger injection", () => {
-    // Act
-    const listener = new DiscordChatListener({ logger, discordChatListenerConfig });
-
-    // Assert
-    expect(listener.logger).toBe(logger);
   });
 
   it("sets config property from discordChatListenerConfig injection", () => {
@@ -92,97 +84,34 @@ describe("discordChatListener init()", () => {
 });
 
 describe("discordChatListener handleMessage()", () => {
-  let logger;
-  let actionHandlerResolver;
-  let discordMessageResolver;
-  let discordMessage;
-
-  beforeEach(() => {
-    logger = jasmine.createSpyObj("logger", ["log"]);
-    actionHandlerResolver = jasmine.createSpyObj("actionHandlerResolver", {
-      resolve: jasmine.createSpyObj("actionHandler", ["handle"])
-    });
-    discordMessageResolver = jasmine.createSpyObj("discordMessageResolver", ["resolve"]);
-    discordMessage = jasmine.createSpyObj("discordMessage", ["reply"]);
-  });
-
-  theoretically.it("returns without error when discordMessage is '%s'", [null, "", " ", undefined], async (insertedValue) => {
+  it("calls super class handleMessage asynchronously", async () => {
     // Arrange
+    const logger = jasmine.createSpyObj("logger", ["log"]);
+    const discordMessage = jasmine.createSpyObj("discordMessage", ["reply"]);
     const listener = new DiscordChatListener({ logger });
-
-    // Act
-    const actualResult = await listener.handleMessage(insertedValue);
-
-    // Assert
-    expect(actualResult).toBe(undefined);
-  });
-
-  it("resolves discord message to ActionHandlerMessage", async () => {
-    // Arrange
-    const listener = new DiscordChatListener({ logger, actionHandlerResolver, discordMessageResolver });
+    spyOn(ChatListenerBase.prototype, "handleMessage");
 
     // Act
     await listener.handleMessage(discordMessage);
 
     // Assert
-    expect(discordMessageResolver.resolve).toHaveBeenCalledWith(discordMessage);
+    expect(ChatListenerBase.prototype.handleMessage).toHaveBeenCalledWith(discordMessage);
   });
+});
 
-  it("resolves ActionHandler with ActionHandlerMessage", async () => {
+
+describe("discordChatListener replyAction()", () => {
+  it("replies to the discordMessage with the specified replyText", async () => {
     // Arrange
-    const actionHandlerMessage = jasmine.createSpy("actionHandlerMessage");
-    discordMessageResolver = jasmine.createSpyObj("discordMessageResolver", {
-      resolve: actionHandlerMessage
-    });
-
-    const listener = new DiscordChatListener({ logger, actionHandlerResolver, discordMessageResolver });
+    const logger = jasmine.createSpyObj("logger", ["log"]);
+    const discordMessage = jasmine.createSpyObj("discordMessage", ["reply"]);
+    const listener = new DiscordChatListener({ logger });
+    const replyText = faker.lorem.sentences();
 
     // Act
-    await listener.handleMessage(discordMessage);
+    await listener.replyAction(discordMessage, replyText);
 
     // Assert
-    expect(actionHandlerResolver.resolve).toHaveBeenCalledWith(actionHandlerMessage);
-  });
-
-  it("asynchronously handles message with resolved ActionHandler's handle() method", async () => {
-    // Arrange
-    const actionHandlerMessage = jasmine.createSpy("actionHandlerMessage");
-    discordMessageResolver = jasmine.createSpyObj("discordMessageResolver", {
-      resolve: actionHandlerMessage
-    });
-    const actionHandler = jasmine.createSpyObj("actionHandler", {
-      handle: async () => {
-        Promise.resolve();
-      }
-    });
-    actionHandlerResolver = jasmine.createSpyObj("actionHandlerResolver", {
-      resolve: actionHandler
-    });
-
-    const listener = new DiscordChatListener({ logger, actionHandlerResolver, discordMessageResolver });
-
-    // Act
-    await listener.handleMessage(discordMessage);
-
-    // Assert
-    expect(actionHandler.handle).toHaveBeenCalledWith(actionHandlerMessage);
-  });
-
-  it("replies to the discordMessage with the ActionHandler's response", async () => {
-    // Arrange
-    const expectedReply = faker.lorem.sentences();
-    actionHandlerResolver = jasmine.createSpyObj("actionHandlerResolver", {
-      resolve: jasmine.createSpyObj("actionHandler", {
-        handle: expectedReply
-      })
-    });
-
-    const listener = new DiscordChatListener({ logger, actionHandlerResolver, discordMessageResolver });
-
-    // Act
-    await listener.handleMessage(discordMessage);
-
-    // Assert
-    expect(discordMessage.reply).toHaveBeenCalledWith(expectedReply);
+    expect(discordMessage.reply).toHaveBeenCalledWith(replyText);
   });
 });

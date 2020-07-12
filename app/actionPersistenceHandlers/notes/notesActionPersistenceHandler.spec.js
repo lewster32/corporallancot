@@ -38,15 +38,16 @@ describe("notesActionPersistenceHandler", () => {
     const channelID = faker.random.number();
     const nick = faker.userName;
     const message = faker.lorem.sentence();
+    const server = faker.lorem.word();
 
     const handler = new NotesActionPersistenceHandler({ logger, notesRepository });
 
     // Act
-    await handler.insertNote(timestamp, userID, channelID, nick, message);
+    await handler.insertNote(timestamp, userID, channelID, nick, message, server);
 
     // Assert
     expect(notesRepository.insertNote)
-      .toHaveBeenCalledWith(timestamp, userID, channelID, nick, message);
+      .toHaveBeenCalledWith(timestamp, userID, channelID, nick, message, server);
   });
 
   it("insertNote returns repository.insertNote as result", async () => {

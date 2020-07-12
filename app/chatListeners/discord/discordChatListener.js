@@ -1,13 +1,13 @@
 'use strict';
 
-module.exports = class DiscordChatListener {
+const ChatListenerBase = require("@chatListeners/chatListenerBase");
+
+module.exports = class DiscordChatListener extends ChatListenerBase {
   constructor({ logger, actionHandlerResolver, discordChatListenerConfig, discordClient, discordMessageResolver }) {
-    this.logger = logger;
+    super(logger, actionHandlerResolver, discordMessageResolver);
+
     this.config = discordChatListenerConfig;
     this.client = discordClient;
-    this.messageResolver = discordMessageResolver;
-    this.actionHandlerResolver = actionHandlerResolver;
-    this.logPrefix = `[${this.constructor.name}] `;
   }
 
   async init() {
@@ -33,49 +33,10 @@ module.exports = class DiscordChatListener {
   }
 
   async handleMessage(discordMessage) {
-    if (!discordMessage || !(typeof discordMessage === "object")) {
-      return;
-    }
-
-    this.logger.log(`${this.logPrefix}Received content '${discordMessage.content}'`);
-
-    const actionHandlerMessage = await this.messageResolver.resolve(discordMessage);
-
-    const actionHandler = await this.actionHandlerResolver.resolve(actionHandlerMessage);
-
-    const reply = await actionHandler.handle(actionHandlerMessage);
-
-    discordMessage.reply(reply);
+    await super.handleMessage(discordMessage);
   }
 
-  // async listenHandler(msg) {
-  //   const content = msg.content;
-  //   if (!content || !(content[0] === "!")) {
-  //     return;
-  //   }
-  //   this.logger.log(`${this.logPrefix}Bang command found in message '${content}'`);
-
-  //   const action = new ActionMessage(content);
-  //   if (action && action.command) {
-  //     let reply = "";
-  //     const handler = this.actions.filter((x) => x.isMatch(action));
-
-  //     this.logger.log(`${this.logPrefix}Received command '${msg.content}' from '${msg.author.username}'`);
-
-  //     if (!handler || !handler.length) {
-  //       reply = "I don't recognise that command.";
-  //     } else {
-  //       try {
-  //         reply = await handler[0].handle(action, msg);
-  //       } catch (e) {
-  //         reply = `Halt! An error occurred: ${e.toString()}`;
-  //       } finally {
-  //         this.logger.log(`${this.logPrefix}Reply set to '${reply}'`);
-  //         if (reply) {
-  //           msg.reply(reply);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  async replyAction(discordMessage, replyText) {
+    discordMessage.reply(replyText);
+  }
 }

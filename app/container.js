@@ -79,27 +79,27 @@ container.register({
   notesRepository: ioc.asClass(NotesRepository, { lifetime: Lifetime.SINGLETON }),
 
   // Register Actions - TODO: Register automatically
-  genericActionHandler: ioc.asClass(GenericActionHandler),
   helpAction: ioc.asClass(HelpActionHandler),
   notesAction: ioc.asClass(NotesActionHandler),
   quoteAction: ioc.asClass(QuoteActionHandler),
+  genericActionHandler: ioc.asClass(GenericActionHandler),
 
   // Resolvers
   actionHandlerResolver: ioc.asClass(ActionHandlerResolver),
-  discordMessageResolver: ioc.asClass(DiscordMessageResolver),
 
   // Add all of the above actions into the below returned array
-  // helpActionActions: ioc.asFunction(() => {
-  //   return [
-  //     container.cradle.notesAction,
-  //     container.cradle.quoteAction
-  //   ];
-  // }, { lifetime: Lifetime.SINGLETON }),
+  helpActionActions: ioc.asFunction(() => {
+    return [
+      container.cradle.notesAction,
+      container.cradle.quoteAction,
+      container.cradle.genericActionHandler
+    ];
+  }),
   // Also include the help action. Do not inject this registration into any actions as you will create a cyclic dependency
-  // actions: ioc.asFunction(() => {
-  //   return container.cradle.helpActionActions
-  //     .concat([container.cradle.helpAction]);
-  // }, { lifetime: Lifetime.SINGLETON })
+  actions: ioc.asFunction(() => {
+    return container.cradle.helpActionActions
+      .concat([container.cradle.helpAction]);
+  })
 });
 
 // Auto loading
