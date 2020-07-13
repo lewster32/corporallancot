@@ -36,6 +36,7 @@ console.log("[Root] Registering services");
 const actionHandlersGlob = 'app/actionHandlers/*/*ActionHandler.js';
 const actionPersistenceHandlersGlob = 'app/actionPersistenceHandlers/*/*ActionPersistenceHandler.js';
 const chatListenersGlobSuffix = 'app/chatListeners/*/';
+const chatListenersGlob = `${chatListenersGlobSuffix}*ChatListener.js`;
 const repositoriesGlob = 'app/services/db/repositories/*/*Repository.js';
 
 container.loadModules([actionHandlersGlob, actionPersistenceHandlersGlob], {
@@ -46,7 +47,7 @@ container.loadModules([actionHandlersGlob, actionPersistenceHandlersGlob], {
 
 // Auto load chat listener files
 container.loadModules([
-  `${chatListenersGlobSuffix}*ChatListener.js`,
+  chatListenersGlob,
   `${chatListenersGlobSuffix}*ChatListenerConfig.js`,
   `${chatListenersGlobSuffix}*MessageResolver.js`
 ], {
@@ -87,6 +88,13 @@ container.register({
 
   // Resolvers
   actionHandlerResolver: ioc.asClass(ActionHandlerResolver),
+
+  // Chat Listeners
+  chatListeners: ioc.asFunction(() => {
+    return ioc
+      .listModules(chatListenersGlob)
+      .map(a => container.resolve(a.name));
+  }),
 
   // Add all of the above actions into the below returned array
   helpActions: ioc.asFunction(() => {
