@@ -4,6 +4,7 @@ module.exports = class Bot {
   constructor({
     // TODO: Inject all chat listeners via a function...
     discordChatListener,
+    // chatListeners,
     botConfig,
     logger
   }) {

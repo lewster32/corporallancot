@@ -3,9 +3,9 @@
 const ActionHandlerBase = require("@actionHandlers/actionHandlerBase");
 
 module.exports = class HelpActionHandler extends ActionHandlerBase {
-  constructor({ logger, helpActionActions }) {
+  constructor({ logger, helpActions }) {
     super(logger, "help");
-    this.actions = helpActionActions;
+    this.actions = helpActions;
     this.help = "`!help` to show this message.";
   }
 
